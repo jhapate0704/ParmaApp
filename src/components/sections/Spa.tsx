@@ -66,7 +66,7 @@ export function Spa() {
   };
 
   return (
-    <section className="bg-stone py-24 lg:py-40 px-6 lg:px-16 overflow-hidden" >
+    <section className="bg-stone py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 overflow-hidden" >
       <SectionHeading
         eyebrow="Parma Spa &middot; Tysons Corner"
         heading="Restore your rhythm."

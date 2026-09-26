@@ -36,7 +36,7 @@ export function Hero() {
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-dark/70 via-dark/30 to-dark/10" />
 
       {/* Content Container */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 pb-24 px-6 lg:px-16 flex flex-col justify-end">
+      <div className="absolute bottom-0 left-0 right-0 z-20 pb-24 px-5 md:px-8 lg:px-16 flex flex-col justify-end">
         <div className="w-full">
           {/* Eyebrow */}
           <motion.div
@@ -55,7 +55,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 }}
           >
-            <h1 className="font-display text-[clamp(2.5rem,2rem+4vw,5.5rem)] text-ivory leading-[1.05] max-w-4xl">
+            <h1 className="font-display text-[clamp(2.5rem,1.5rem+6vw,5.5rem)] text-ivory leading-[1.05] max-w-4xl">
               A private sanctuary for living well.
             </h1>
           </motion.div>

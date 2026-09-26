@@ -5,9 +5,9 @@ import { AnimatedReveal } from '@/components/ui/AnimatedReveal';
 
 export function Introduction() {
   return (
-    <section className="pt-24 lg:pt-40 pb-0 px-6 lg:px-16 bg-ivory">
+    <section className="pt-24 lg:pt-40 pb-0 px-5 md:px-8 lg:px-16 bg-ivory">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-24 items-center">
           {/* Left Column */}
           <AnimatedReveal direction="up" threshold={0.2}>
             <div className="flex flex-col">

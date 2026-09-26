@@ -4,7 +4,7 @@ import { AnimatedReveal, EyebrowLabel } from '@/components/ui';
 
 export function Philosophy() {
   return (
-    <section className="py-24 lg:py-40 px-6 lg:px-16 bg-stone text-center flex flex-col items-center justify-center">
+    <section className="py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-stone text-center flex flex-col items-center justify-center">
       <AnimatedReveal>
         <EyebrowLabel text="The Parma Philosophy" />
       </AnimatedReveal>

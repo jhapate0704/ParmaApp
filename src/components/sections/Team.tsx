@@ -7,19 +7,19 @@ import { SectionHeading, AnimatedReveal } from '@/components/ui';
 
 export function Team() {
   return (
-    <section className="py-24 lg:py-40 px-6 lg:px-16 bg-stone" id="team">
+    <section className="py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-stone" id="team">
       <div className="max-w-7xl mx-auto">
         <AnimatedReveal>
           <SectionHeading heading="An international team, chosen with care." align="center" />
         </AnimatedReveal>
 
-        <div className="mt-24 space-y-32 lg:space-y-40">
+        <div className="mt-16 md:mt-24 space-y-20 md:space-y-32 lg:space-y-40">
           {team.map((member, index) => {
             const isEven = index % 2 === 0;
             return (
               <div 
                 key={member.id} 
-                className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-24 items-center`}
+                className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 md:gap-12 lg:gap-24 items-center`}
               >
                 {/* Image Side - Animated from the side it appears */}
                 <div className="w-full lg:w-1/2">

@@ -37,7 +37,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-24 lg:py-40 px-6 lg:px-16 bg-stone" id="faq">
+    <section className="py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-stone" id="faq">
       <div className="max-w-4xl mx-auto">
         <AnimatedReveal>
           <SectionHeading
@@ -48,7 +48,7 @@ export default function FAQ() {
           />
         </AnimatedReveal>
 
-        <div className="mt-16 lg:mt-24 space-y-4">
+        <div className="mt-16 lg:mt-16 md:mt-24 space-y-4">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
 

@@ -11,7 +11,7 @@ export function Destinations() {
   const containerRef = useRef<HTMLDivElement>(null);
   
   return (
-    <section className="py-24 lg:py-40 pl-6 lg:pl-16 bg-ivory overflow-hidden" ref={containerRef}>
+    <section className="py-16 md:py-16 md:py-24 lg:py-32 pl-6 lg:pl-16 bg-ivory overflow-hidden" ref={containerRef}>
       <AnimatedReveal>
         <div className="pr-6 lg:pr-16 mb-12">
           <SectionHeading heading="Beyond the gates." description="Discover curated experiences in our surroundings." />

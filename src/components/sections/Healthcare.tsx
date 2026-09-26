@@ -79,7 +79,7 @@ export default function Healthcare() {
   };
 
   return (
-    <div className="bg-stone py-24 lg:py-40 px-6 lg:px-16" >
+    <div className="bg-stone py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16" >
       <SectionHeading
         eyebrow="Parma Healthcare"
         heading="Healthcare, reimagined."
@@ -112,7 +112,7 @@ export default function Healthcare() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-center"
           >
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg w-full">
               <Image

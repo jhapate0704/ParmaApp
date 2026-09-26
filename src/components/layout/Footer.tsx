@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer id="footer" className="bg-forest text-ivory">
       {/* Closing Statement Area */}
-      <div className="py-24 px-6 text-center border-b border-white/10 flex flex-col items-center">
+      <div className="py-16 md:py-24 px-6 md:px-12 text-center border-b border-white/10 flex flex-col items-center">
         <h2 className="font-display text-[clamp(2.5rem,2rem+3vw,5rem)] max-w-4xl mx-auto mb-12">
           Your private sanctuary awaits.
         </h2>
@@ -17,7 +17,7 @@ export function Footer() {
       </div>
 
       {/* 4-Column Grid */}
-      <div className="py-16 px-6 md:px-12 container mx-auto">
+      <div className="py-12 md:py-16 px-6 md:px-12 container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
           
           {/* Col 1 */}

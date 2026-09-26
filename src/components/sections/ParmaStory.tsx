@@ -6,7 +6,7 @@ import { AnimatedReveal } from '@/components/ui/AnimatedReveal';
 
 export function ParmaStory() {
   return (
-    <section className="pt-0 pb-24 lg:pb-40 px-6 lg:px-16 bg-ivory overflow-hidden">
+    <section className="pt-0 pb-24 lg:pb-40 px-5 md:px-8 lg:px-16 bg-ivory overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         {/* Left Column - Image */}
         <div className="lg:col-span-7">

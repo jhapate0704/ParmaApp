@@ -42,7 +42,7 @@ export function FourWorlds() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="bg-stone py-24 lg:py-32 px-6 lg:px-16" id="worlds">
+    <section className="bg-stone py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16" id="worlds">
       <SectionHeading
         eyebrow="Four worlds, one estate"
         heading="Choose how you arrive."

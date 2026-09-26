@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${marcellus.variable} ${jost.variable} antialiased scroll-smooth`}>
-      <body className="bg-ivory text-charcoal font-body min-h-screen">
+      <body className="bg-ivory text-charcoal font-body min-h-screen overflow-x-hidden">
         {children}
       </body>
     </html>

@@ -65,14 +65,8 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
           className="fixed inset-0 z-30 bg-dark text-ivory flex flex-col justify-center px-8 md:px-16"
         >
           <nav className="flex flex-col space-y-4 md:space-y-6 mt-16 max-h-[70vh] overflow-y-auto pr-4">
-            {navItems.flatMap((item: any) => item.dropdown ? [item, ...item.dropdown.map((d: any) => ({...d, isSub: true}))] : [item]).map((item: any, i) => (
-              <motion.div key={item.label} custom={i} variants={itemVariants}>
-                {item.dropdown ? (
-                  <div className="flex items-baseline space-x-6 opacity-50 mb-2 mt-4">
-                    <span className="text-xs font-body text-transparent font-medium">--</span>
-                    <span className="font-body text-sm uppercase tracking-[0.2em]">{item.label}</span>
-                  </div>
-                ) : (
+            {navItems.flatMap((item: any) => item.dropdown ? item.dropdown : [item]).map((item: any, i) => (
+                <motion.div key={item.label} custom={i} variants={itemVariants}>
                   <Link 
                       href={item.href || '#'} 
                       onClick={(e) => {
@@ -90,22 +84,21 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
                                   top: offsetPosition,
                                   behavior: 'smooth'
                               });
-                            }, 300); // Wait for modal to close
+                            }, 300);
                           }
                         }
                       }}
-                    className={`flex items-baseline space-x-6 group ${item.isSub ? 'ml-8' : ''}`}
-                  >
-                    <span className="text-xs font-body text-subtle font-medium">
-                      {!item.isSub ? (i + 1).toString().padStart(2, '0') : ''}
-                    </span>
-                    <span className={`font-display group-hover:text-sage transition-colors duration-300 ${item.isSub ? 'text-3xl text-ivory/80' : 'text-4xl md:text-5xl'}`}>
-                      {item.label}
-                    </span>
-                  </Link>
-                )}
-              </motion.div>
-            ))}
+                      className="flex items-baseline space-x-6 group"
+                    >
+                      <span className="text-xs font-body text-subtle font-medium">
+                        {(i + 1).toString().padStart(2, '0')}
+                      </span>
+                      <span className="font-display group-hover:text-sage transition-colors duration-300 text-4xl md:text-5xl">
+                        {item.label}
+                      </span>
+                    </Link>
+                </motion.div>
+              ))}
           </nav>
 
           <motion.div 
@@ -113,7 +106,7 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
             custom={navItems.length} 
             variants={itemVariants}
           >
-            <Button variant="dark" size="lg" className="w-full" onClick={onClose}>
+            <Button variant="dark" size="lg" className="w-full" onClick={onClose} href="/reserve">
               Reserve Your Stay
             </Button>
           </motion.div>

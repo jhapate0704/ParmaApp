@@ -11,7 +11,7 @@ export function Footer() {
         <h2 className="font-display text-[clamp(2.5rem,2rem+3vw,5rem)] max-w-4xl mx-auto mb-12">
           Your private sanctuary awaits.
         </h2>
-        <Button variant="dark" size="lg" icon>
+        <Button variant="dark" size="lg" icon href="/reserve">
           Reserve Your Stay
         </Button>
       </div>

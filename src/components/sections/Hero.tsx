@@ -80,6 +80,7 @@ export function Hero() {
           >
             <Button
               href="/reserve"
+              href="/reserve"
               variant="secondary"
               className="text-ivory border-ivory/30 hover:bg-sage hover:border-sage hover:text-dark transition-all duration-300"
             >

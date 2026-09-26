@@ -57,8 +57,9 @@ function ReserveContent() {
       {/* Simple Header */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center p-6 bg-transparent border-none">
         <div className="absolute left-6">
-          <Link href="/" className="flex items-center px-5 py-2.5 rounded-full text-base font-body font-medium text-charcoal bg-white/60 backdrop-blur-md border border-white/50 hover:bg-sage hover:border-sage hover:text-white transition-all duration-300 shadow-sm">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+          <Link href="/" className="flex items-center justify-center w-10 h-10 md:w-auto md:h-auto md:px-5 md:py-2.5 rounded-full text-base font-body font-medium text-charcoal bg-white/80 md:bg-white/60 backdrop-blur-md border border-white/50 hover:bg-sage hover:border-sage hover:text-white transition-all duration-300 shadow-sm">
+            <ArrowLeft className="w-5 h-5 md:w-4 md:h-4 md:mr-2" /> 
+            <span className="hidden md:inline">Back to Home</span>
           </Link>
         </div>
         <div className="font-display text-2xl uppercase tracking-widest text-charcoal">Parma</div>

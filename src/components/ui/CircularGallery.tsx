@@ -80,7 +80,9 @@ export function CircularGallery({
     wrap.style.pointerEvents = typeof window !== 'undefined' && window.innerWidth < 768 ? "auto" : "none";
     gsap.to(wrap, { opacity: 1, duration: 0.15, ease: "power2.out", overwrite: true });
     if (centerContentRef.current) {
-      gsap.to(centerContentRef.current, { opacity: 0, duration: 0.15, ease: "power2.out", overwrite: true });
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+        gsap.to(centerContentRef.current, { opacity: 0, duration: 0.15, ease: "power2.out", overwrite: true });
+      }
     }
   };
 
@@ -155,6 +157,7 @@ export function CircularGallery({
 
     let dragging = false;
     let isActivelyDragging = false;
+    let isVerticalScroll = false;
     let startX = 0;
     let startY = 0;
     let lastX = 0;
@@ -184,17 +187,18 @@ export function CircularGallery({
     document.addEventListener("visibilitychange", onVisibilityChange);
     reducedMotionQuery.addEventListener("change", onReducedMotionChange);
 
-    // ── Drag / Tap Handlers (Mobile-friendly: distinguishes taps from drags) ──
+    // ── Drag / Tap Handlers (Mobile-friendly: distinguishes taps, vertical scrolls, and horizontal drags) ──
     const onPointerDown = (e: PointerEvent) => {
       dragging = true;
       isActivelyDragging = false;
+      isVerticalScroll = false;
       startX = e.clientX;
       startY = e.clientY;
       lastX = e.clientX;
     };
 
     const onPointerMove = (e: PointerEvent) => {
-      if (optsRef.current.parallax) {
+      if (optsRef.current.parallax && e.pointerType === 'mouse') {
         const rect = root.getBoundingClientRect();
         const px = (e.clientX - rect.left) / rect.width - 0.5;
         const py = (e.clientY - rect.top) / rect.height - 0.5;
@@ -206,12 +210,20 @@ export function CircularGallery({
           overwrite: "auto",
         });
       }
-      if (dragging) {
+      if (dragging && !isVerticalScroll) {
         const deltaX = Math.abs(e.clientX - startX);
         const deltaY = Math.abs(e.clientY - startY);
-        // Only treat as drag when movement exceeds threshold
-        if (deltaX > 6 || deltaY > 6) {
-          if (!isActivelyDragging) {
+
+        // On mobile touch: if user moves vertically more than horizontally, allow native page scroll
+        if (!isActivelyDragging) {
+          if (e.pointerType === 'touch' && deltaY > deltaX && deltaY > 7) {
+            isVerticalScroll = true;
+            dragging = false;
+            return;
+          }
+
+          // When movement is predominantly horizontal, lock to gallery rotate
+          if (deltaX > 8 && (e.pointerType !== 'touch' || deltaX > deltaY)) {
             isActivelyDragging = true;
             try {
               root.setPointerCapture?.(e.pointerId);
@@ -219,6 +231,7 @@ export function CircularGallery({
             root.style.cursor = "grabbing";
           }
         }
+
         if (isActivelyDragging) {
           target += (e.clientX - lastX) * 0.3;
           lastX = e.clientX;
@@ -231,8 +244,8 @@ export function CircularGallery({
         try {
           root.releasePointerCapture?.(e.pointerId);
         } catch {}
-      } else if (dragging) {
-        // It was a TAP (< 6px movement)
+      } else if (dragging && !isVerticalScroll) {
+        // It was a TAP (< 8px movement)
         const targetEl = document.elementFromPoint(e.clientX, e.clientY);
         const ringCard = targetEl?.closest("[data-ring-src]");
         if (ringCard) {
@@ -244,6 +257,7 @@ export function CircularGallery({
       }
       dragging = false;
       isActivelyDragging = false;
+      isVerticalScroll = false;
       root.style.cursor = "grab";
     };
 
@@ -251,6 +265,7 @@ export function CircularGallery({
     root.addEventListener("pointermove", onPointerMove);
     root.addEventListener("pointerup", endDrag);
     root.addEventListener("pointerleave", endDrag);
+    root.addEventListener("pointercancel", endDrag);
 
     return () => {
       gsap.ticker.remove(tick);
@@ -262,6 +277,7 @@ export function CircularGallery({
       root.removeEventListener("pointermove", onPointerMove);
       root.removeEventListener("pointerup", endDrag);
       root.removeEventListener("pointerleave", endDrag);
+      root.removeEventListener("pointercancel", endDrag);
       gsap.killTweensOf(gallery);
     };
   }, [count, radius, images]);
@@ -270,17 +286,17 @@ export function CircularGallery({
     <div
       ref={rootRef}
       className={cn(
-        "relative h-full w-full touch-none select-none overflow-hidden [perspective:1500px]",
+        "relative h-full w-full touch-pan-y select-none overflow-hidden [perspective:1500px]",
         "bg-transparent",
         className,
       )}
       style={{ cursor: "grab" }}
     >
-      {/* Center Content (Title/Text) */}
+      {/* Center Content (Title/Text) - positioned on upper side in mobile, centered on desktop */}
       {centerContent && (
         <div 
           ref={centerContentRef} 
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none w-full flex flex-col items-center justify-center px-4"
+          className="absolute left-1/2 top-4 sm:top-8 md:top-1/2 -translate-x-1/2 translate-y-0 md:-translate-y-1/2 z-10 pointer-events-none w-full flex flex-col items-center justify-center px-4"
         >
           {centerContent}
         </div>
@@ -290,7 +306,7 @@ export function CircularGallery({
       {showPreview && defaultPreview ? (
         <div
           ref={previewWrapRef}
-          className="absolute left-1/2 top-1/2 z-20 h-[240px] w-[88vw] sm:h-[280px] sm:w-[380px] md:h-[320px] md:w-[480px] max-w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl opacity-0 shadow-[0_0_50px_rgba(197,160,89,0.35),0_20px_50px_rgba(0,0,0,0.9)] border border-[#C5A059]/40 pointer-events-none transition-transform duration-300"
+          className="absolute left-1/2 top-[52%] md:top-1/2 z-20 h-[220px] w-[88vw] sm:h-[260px] sm:w-[360px] md:h-[320px] md:w-[480px] max-w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl opacity-0 shadow-[0_0_50px_rgba(197,160,89,0.35),0_20px_50px_rgba(0,0,0,0.9)] border border-[#C5A059]/40 pointer-events-none transition-transform duration-300"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img ref={previewRef} src={defaultPreview} alt="" className="h-full w-full object-cover" />
@@ -315,10 +331,10 @@ export function CircularGallery({
         </div>
       ) : null}
 
-      {/* The ring */}
+      {/* The ring - moved downward on mobile to prevent overlapping with top text */}
       <div
         ref={galleryRef}
-        className="absolute left-1/2 top-[14%] z-10 -translate-x-1/2 [transform-style:preserve-3d]"
+        className="absolute left-1/2 top-[24%] sm:top-[22%] md:top-[14%] z-10 -translate-x-1/2 [transform-style:preserve-3d]"
       >
         {Array.from({ length: count }).map((_, i) => {
           const src = srcOf(i);

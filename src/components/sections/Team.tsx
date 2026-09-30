@@ -11,7 +11,7 @@ export function Team() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="py-16 md:py-24 lg:py-32 px-4 md:px-8 lg:px-16 bg-transparent" id="team">
+    <section className="pt-0 -mt-2 md:mt-0 pb-16 md:py-24 lg:py-32 px-4 md:px-8 lg:px-16 bg-transparent" id="team">
       <div className="max-w-7xl mx-auto flex flex-col">
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-14 gap-4">

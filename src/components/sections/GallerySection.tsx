@@ -20,7 +20,7 @@ const galleryImages = [
 
 export default function GallerySection() {
   return (
-    <section className="relative h-screen w-full flex flex-col items-center justify-center bg-transparent py-24" id="gallery">
+    <section className="relative h-[55vh] min-h-[420px] md:h-screen w-full flex flex-col items-center justify-center bg-transparent py-0 md:py-24" id="gallery">
       <div className="w-full h-full absolute inset-0 z-10">
         <CircularGallery 
           images={galleryImages} 

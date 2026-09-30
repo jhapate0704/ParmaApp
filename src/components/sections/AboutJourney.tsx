@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
+import { GestureHint } from '@/components/ui/GestureHint';
 
 const aboutImages = [
   {
@@ -185,6 +186,13 @@ export function AboutJourney() {
             />
           );
         })}
+
+        {/* First-time onboarding gesture hint */}
+        {activeIndex === 0 && (
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
+            <GestureHint type="scroll" text="Scroll to journey • 8 Pillars" delaySeconds={0.4} durationSeconds={8} />
+          </div>
+        )}
 
       </div>
     </section>

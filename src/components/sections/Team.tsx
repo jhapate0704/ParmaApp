@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { team } from '@/data/team';
 import { SectionHeading } from '@/components/ui';
+import { GestureHint } from '@/components/ui/GestureHint';
 
 export function Team() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -13,11 +14,16 @@ export function Team() {
     <section className="py-16 md:py-24 lg:py-32 px-4 md:px-8 lg:px-16 bg-transparent" id="team">
       <div className="max-w-7xl mx-auto flex flex-col">
         
-        <SectionHeading 
-          heading="Our Experts" 
-          eyebrow="THE MINDS BEHIND PARMA"
-          className="mb-12 md:mb-16" 
-        />
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-14 gap-4">
+          <SectionHeading 
+            heading="Our Experts" 
+            eyebrow="THE MINDS BEHIND PARMA"
+            className="mb-0" 
+          />
+          <div className="self-center md:self-end">
+            <GestureHint type="slide" text="Hover or tap to reveal" delaySeconds={0.4} durationSeconds={8} />
+          </div>
+        </div>
 
         {/* TOP: Horizontal Row of Expanding Images */}
         <div className="flex h-[40vh] md:h-[50vh] lg:h-[60vh] gap-2 md:gap-4 w-full cursor-pointer">

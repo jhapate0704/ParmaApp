@@ -64,7 +64,7 @@ export function Header() {
       }
 
       // Scroll Spy: Array of section IDs that exist on the homepage
-      const sections = ['about', 'worlds', 'inn', 'spa', 'health', 'meditation', 'team', 'footer'];
+      const sections = ['about', 'worlds', 'gallery', 'team', 'footer', 'inn', 'spa', 'health', 'meditation'];
       let current = '';
       
       // Loop through each section to see if it's currently in the middle of the user's screen
@@ -212,6 +212,24 @@ export function Header() {
                 <Link 
                   key={item.label} 
                   href={item.href!}
+                  onClick={(e) => {
+                    const isAnchorOnHome = item.href && (item.href.startsWith('#') || (item.href.startsWith('/#') && typeof window !== 'undefined' && window.location.pathname === '/'));
+                    if (isAnchorOnHome) {
+                      const targetId = item.href.replace(/^\/?#/, '');
+                      const el = document.getElementById(targetId);
+                      if (el) {
+                        e.preventDefault();
+                        const headerOffset = 80;
+                        const elementPosition = el.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                          top: offsetPosition,
+                          behavior: 'smooth'
+                        });
+                        window.history.pushState(null, '', item.href);
+                      }
+                    }
+                  }}
                   className={`relative px-6 py-2 z-10 rounded-full group hover:scale-[1.05] transition-all duration-300 ${
                     scrolled ? 'hover:bg-white/10' : 'hover:bg-white/20'
                   }`}

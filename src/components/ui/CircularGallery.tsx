@@ -76,9 +76,9 @@ export function CircularGallery({
     const img = previewRef.current;
     const wrap = previewWrapRef.current;
     if (!img || !wrap || !src) return;
-    if (!img.src.endsWith(src)) img.src = src;
-    wrap.style.pointerEvents = "auto";
-    gsap.to(wrap, { opacity: 1, duration: 0.2, ease: "power2.out", overwrite: true });
+    if (img.src !== src) img.src = src;
+    wrap.style.pointerEvents = typeof window !== 'undefined' && window.innerWidth < 768 ? "auto" : "none";
+    gsap.to(wrap, { opacity: 1, duration: 0.15, ease: "power2.out", overwrite: true });
     if (centerContentRef.current) {
       gsap.to(centerContentRef.current, { opacity: 0, duration: 0.15, ease: "power2.out", overwrite: true });
     }
@@ -290,8 +290,7 @@ export function CircularGallery({
       {showPreview && defaultPreview ? (
         <div
           ref={previewWrapRef}
-          onClick={hidePreviewImage}
-          className="absolute left-1/2 top-1/2 z-30 h-[240px] w-[88vw] sm:h-[280px] sm:w-[380px] md:h-[320px] md:w-[480px] max-w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl opacity-0 shadow-[0_0_50px_rgba(197,160,89,0.35),0_20px_50px_rgba(0,0,0,0.9)] border border-[#C5A059]/40 cursor-pointer pointer-events-none transition-transform duration-300 hover:scale-[1.02]"
+          className="absolute left-1/2 top-1/2 z-20 h-[240px] w-[88vw] sm:h-[280px] sm:w-[380px] md:h-[320px] md:w-[480px] max-w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl opacity-0 shadow-[0_0_50px_rgba(197,160,89,0.35),0_20px_50px_rgba(0,0,0,0.9)] border border-[#C5A059]/40 pointer-events-none transition-transform duration-300"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img ref={previewRef} src={defaultPreview} alt="" className="h-full w-full object-cover" />
@@ -300,12 +299,19 @@ export function CircularGallery({
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
           {/* Close hint button on mobile/touch */}
-          <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/80 border border-[#C5A059]/40 text-[10px] uppercase tracking-widest text-[#C5A059] font-body pointer-events-none">
-            <span>Tap to close</span>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              hidePreviewImage();
+            }}
+            className="md:hidden absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/80 border border-[#C5A059]/40 text-[10px] uppercase tracking-widest text-[#C5A059] font-body pointer-events-auto"
+          >
+            <span>Close</span>
             <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </div>
+          </button>
         </div>
       ) : null}
 
@@ -321,6 +327,10 @@ export function CircularGallery({
               key={i}
               data-ring-item
               data-ring-src={src}
+              onMouseEnter={() => {
+                if (src) showPreviewImage(src);
+              }}
+              onMouseLeave={hidePreviewImage}
               onClick={(e) => {
                 e.stopPropagation();
                 if (src) showPreviewImage(src);
@@ -328,21 +338,12 @@ export function CircularGallery({
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[3px] bg-neutral-900 shadow-md shadow-black/20 ring-1 ring-white/20 [transform-style:preserve-3d] cursor-pointer group"
               style={{ width: itemWidth, height: itemHeight, margin: 10, willChange: 'transform' }}
             >
-              {/* Invisible touch-target expander for mobile tapping */}
-              <div className="absolute -inset-3 z-10 pointer-events-auto" />
-
               {src ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={src}
                   alt=""
-                  onMouseEnter={() => showPreviewImage(src)}
-                  onMouseLeave={hidePreviewImage}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    showPreviewImage(src);
-                  }}
-                  className="h-full w-full object-cover rounded-[3px] transition-[transform,filter] duration-300 hover:scale-110 hover:brightness-110 active:scale-95"
+                  className="h-full w-full object-cover rounded-[3px] pointer-events-none transition-[transform,filter] duration-300 group-hover:scale-110 group-hover:brightness-110"
                 />
               ) : null}
             </div>

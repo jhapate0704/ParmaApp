@@ -119,7 +119,7 @@ export function SolarSystem() {
           {/* The Sun / Center Anchor (Parma Logo) */}
           <div className="absolute z-50 flex items-center justify-center pointer-events-auto">
             <div className="relative group cursor-pointer flex items-center justify-center">
-              <div className="absolute inset-0 bg-[#C5A059] rounded-full blur-2xl opacity-40 group-hover:opacity-80 transition-opacity duration-700 scale-[1.5]" />
+              <div className="absolute inset-0  rounded-full blur-2xl opacity-40 group-hover:opacity-80 transition-opacity duration-700 scale-[1.5]" />
               <div className="absolute inset-0 bg-[#E8D3A2] rounded-full blur-lg opacity-60 scale-110" />
               <img
                 src="/parma-official-crest.png"

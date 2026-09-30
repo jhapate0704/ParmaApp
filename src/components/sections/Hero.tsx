@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { ChevronDown, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { GestureHint } from '@/components/ui/GestureHint';
 
 /**
  * HeroHoverLetter Component
@@ -248,21 +249,10 @@ function Hero() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 6.0 }}
           style={{ opacity: scrollHintOpacity }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-none"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none"
         >
-          <span className="text-xs text-ivory/50 tracking-[0.2em] uppercase font-body">
-            SCROLL TO DISCOVER
-          </span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <ChevronDown className="w-5 h-5 text-ivory/50" />
-          </motion.div>
+          <GestureHint type="scroll" text="Scroll to explore" delaySeconds={1.5} durationSeconds={12} />
         </motion.div>
 
         </motion.div>

@@ -3,6 +3,9 @@ import { NavItem } from "@/types";
 export const navigationData: NavItem[] = [
   { label: 'About', href: '/#about' },
   { label: 'Sanctuary', href: '/#worlds' },
+  { label: 'Gallery', href: '/#gallery' },
+  { label: 'Team', href: '/#team' },
+  { label: 'Contact Us', href: '#footer' },
   { 
     label: 'Experiences', 
     dropdown: [
@@ -12,6 +15,4 @@ export const navigationData: NavItem[] = [
       { label: 'Meditation', href: '/meditation' }
     ]
   },
-  { label: 'Team', href: '/#team' },
-  { label: 'Contact Us', href: '#footer' },
 ];

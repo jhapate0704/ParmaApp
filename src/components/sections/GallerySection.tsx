@@ -3,6 +3,7 @@
 import React from 'react';
 import { CircularGallery } from '@/components/ui/CircularGallery';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { GestureHint } from '@/components/ui/GestureHint';
 
 const galleryImages = [
   "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80",
@@ -37,10 +38,14 @@ export default function GallerySection() {
                 description="Glimpses of a sanctuary designed for lasting vitality." 
                 align="center"
               />
-              <span className="mt-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/70 border border-[#C5A059]/30 text-[11px] md:text-xs uppercase tracking-[0.2em] text-[#C5A059] font-body backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059] animate-pulse" />
-                Tap card to view
-              </span>
+              <div className="mt-4 pointer-events-none">
+                <GestureHint 
+                  type="drag-tap" 
+                  text="Swipe to rotate • Tap card to view" 
+                  delaySeconds={0.4} 
+                  durationSeconds={8} 
+                />
+              </div>
             </div>
           }
         />

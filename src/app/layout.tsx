@@ -14,9 +14,58 @@ const jost = Jost({
   subsets: ['latin'],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.URL || 'https://parma-wellness.com';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Parma | A Private Wellness Sanctuary',
   description: 'A private wellness sanctuary in the Virginia countryside offering Ayurvedic treatments, spa therapies, and restorative retreats.',
+  applicationName: 'Parma Sanctuary',
+  keywords: ['Parma', 'Wellness Sanctuary', 'Ayurveda', 'Luxury Spa', 'Retreat', 'Virginia Countryside'],
+  icons: {
+    icon: [
+      { url: '/parma-official-crest.png' },
+      { url: '/parma-logo.png' },
+    ],
+    shortcut: ['/parma-official-crest.png'],
+    apple: [
+      { url: '/parma-logo.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  openGraph: {
+    title: 'Parma | A Private Wellness Sanctuary',
+    description: 'A private wellness sanctuary in the Virginia countryside offering Ayurvedic treatments, spa therapies, and restorative retreats.',
+    url: siteUrl,
+    siteName: 'Parma Sanctuary',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Parma — A Private Wellness Sanctuary',
+      },
+      {
+        url: '/parma-logo.png',
+        width: 512,
+        height: 512,
+        alt: 'Parma Official Logo',
+      },
+      {
+        url: '/parma-official-crest.png',
+        width: 344,
+        height: 656,
+        alt: 'Parma Official Crest',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Parma | A Private Wellness Sanctuary',
+    description: 'A private wellness sanctuary in the Virginia countryside offering Ayurvedic treatments, spa therapies, and restorative retreats.',
+    images: ['/og-image.png'],
+  },
 };
 
 import Header from '@/components/layout/Header';

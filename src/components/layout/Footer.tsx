@@ -39,7 +39,7 @@ export function Footer() {
                 className="shrink-0"
               >
                 <img
-                  src="/parma-official-crest.png"
+                  src="/icon.png"
                   alt="Parma Crest"
                   className="w-24 h-24 md:w-32 md:h-32 object-contain drop-shadow-[0_0_16px_rgba(197,160,89,0.5)]"
                 />

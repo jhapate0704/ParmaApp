@@ -48,16 +48,6 @@ export default function ServiceHero({ title, subtitle, mediaUrl, mediaType = 'im
       {/* Hero Center Content */}
       <div className="relative z-20 text-center px-6 max-w-4xl mx-auto flex flex-col items-center pt-16">
         
-        {/* Subtle Gold Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="mb-4 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-[#C5A059]/30 text-[11px] md:text-xs uppercase tracking-[0.25em] text-[#C5A059] font-body backdrop-blur-md"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" />
-          Parma Sanctuary
-        </motion.div>
 
         {/* Title */}
         <motion.h1 

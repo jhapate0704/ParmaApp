@@ -180,7 +180,7 @@ export function ShareButton({
             {/* Crest & Title Header */}
             <div className="flex items-center gap-3 pb-3 border-b border-white/10">
               <img
-                src="/parma-official-crest.png"
+                src="/icon.png"
                 alt="Parma Crest"
                 className="w-8 h-10 object-contain shrink-0"
               />

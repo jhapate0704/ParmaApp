@@ -75,7 +75,7 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
           {/* TOP BAR: BRANDING & CLOSE (X) BUTTON */}
           <div className="relative z-20 flex items-center justify-between w-full pt-1 pb-4 border-b border-white/10 shrink-0">
             <Link href="/" onClick={onClose} className="flex items-center space-x-2">
-              <img src="/parma-official-crest.png" alt="Parma Crest" className="h-12 w-12 object-contain" />
+              <img src="/icon.png" alt="Parma Crest" className="h-12 w-12 object-contain" />
               <span className="font-display text-xl tracking-wide uppercase text-ivory">Parma</span>
             </Link>
 

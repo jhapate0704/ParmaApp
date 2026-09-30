@@ -122,7 +122,7 @@ export function SolarSystem() {
               <div className="absolute inset-0  rounded-full blur-2xl opacity-40 group-hover:opacity-80 transition-opacity duration-700 scale-[1.5]" />
               <div className="absolute inset-0 bg-[#E8D3A2] rounded-full blur-lg opacity-60 scale-110" />
               <img
-                src="/parma-official-crest.png"
+                src="/icon.png"
                 alt="Parma Center"
                 className="w-12 h-12 md:w-16 md:h-16 object-contain relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
               />

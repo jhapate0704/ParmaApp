@@ -108,7 +108,7 @@ export function Header() {
               ========================================= */}
           <Link href="/" className="flex items-center space-x-0 group">
             {/* The crest size remains completely static so the header doesn't jump or shrink */}
-            <img src="/parma-official-crest.png" alt="Parma Crest" className="shrink-0 object-contain h-16 w-16 md:h-20 md:w-20" />
+            <img src="/icon.png" alt="Parma Crest" className="shrink-0 object-contain h-16 w-16 md:h-20 md:w-20 drop-shadow-[0_2px_12px_rgba(197,160,89,0.3)]" />
             <div className="flex flex-col">
               <span className="font-display text-2xl tracking-wide uppercase flex">
                 {"Parma".split("").map((char, i) => (

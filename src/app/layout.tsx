@@ -24,12 +24,13 @@ export const metadata: Metadata = {
   keywords: ['Parma', 'Wellness Sanctuary', 'Ayurveda', 'Luxury Spa', 'Retreat', 'Virginia Countryside'],
   icons: {
     icon: [
-      { url: '/parma-official-crest.png' },
-      { url: '/parma-logo.png' },
+      { url: '/icon.png' },
+      { url: '/icon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon.png', sizes: '192x192', type: 'image/png' },
     ],
-    shortcut: ['/parma-official-crest.png'],
+    shortcut: ['/icon.png'],
     apple: [
-      { url: '/parma-logo.png', sizes: '180x180', type: 'image/png' },
+      { url: '/icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   openGraph: {

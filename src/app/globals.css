@@ -7,20 +7,20 @@
   --color-charcoal: #2C2C2C;
   --color-muted: #7A7468;
   --color-subtle: #B5AFA6;
-  --color-sage: #6B7F56;
-  --color-sage-light: #8A9E74;
-  --color-forest: #4A5C3B;
+  --color-sage: #C5A059;       /* Was sage, now Luxury Champagne Gold */
+  --color-sage-light: #E8D3A2; /* Was sage-light, now Light Champagne */
+  --color-forest: #8B6D45;     /* Was forest, now Deep Gold/Copper */
   --color-bronze: #9E7E5A;
   --color-terra: #B87A5E;
-  --color-dark: #1A1D17;
-  --color-dark-surface: #252822;
+  --color-dark: #000000;
+  --color-dark-surface: #0a0a0a;
   --font-display: 'Marcellus', serif;
   --font-body: 'Jost', sans-serif;
 }
 
 @layer base {
   body {
-    @apply bg-ivory font-body text-charcoal min-h-screen;
+    @apply bg-dark font-body text-ivory min-h-screen;
   }
   
   html {
@@ -45,5 +45,56 @@
   
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-subtle;
+  }
+}
+
+@layer components {
+  /* Vengeance UI Flip Text Styles */
+  .flip-char {
+    transform-origin: 50% 100%;
+    animation: flip-text-anim var(--flip-duration) ease-in-out var(--flip-delay) var(--flip-iteration);
+    transform-style: preserve-3d;
+    text-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .flip-char::after {
+    content: attr(data-char);
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: rotateX(-90deg);
+    transform-origin: bottom;
+    text-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  @keyframes flip-text-anim {
+    /* 
+      WHY 0% to 10%: The animation starts here and rests. The font faces the camera perfectly flat.
+      Using ease-in makes the initial movement feel like a heavy physical block starting to move.
+    */
+    0%, 10% { transform: rotateX(0deg); animation-timing-function: ease-in; }
+    
+    /* 
+      WHY 105deg and 85deg?: This creates "Sway" or "Overshoot". 
+      In the physical world, a heavy falling block doesn't just stop instantly at 90 degrees; it slams past it,
+      bounces slightly back up, and then settles. This makes the 3D text feel like physical wood or plastic.
+    */
+    20% { transform: rotateX(105deg); animation-timing-function: ease-in-out; }
+    25% { transform: rotateX(85deg); animation-timing-function: ease-in-out; }
+    
+    /* 
+      WHY 90deg?: The block settles flat. 
+      At 90 degrees, the bottom face (::after) is now perfectly facing the camera at 0 degrees!
+    */
+    30%, 45% { transform: rotateX(90deg); }
+    
+    /* 
+      WHY SNAP BACK TO 0deg?: This is an optical illusion to create single-direction rotation!
+      Because the bottom face has the exact same text as the front face, we can instantly snap 
+      the rotation from 90 back to 0 in 0.001%. 
+      The user doesn't notice the snap, but it resets the block so the next animation cycle 
+      always flips FORWARD, never backward!
+    */
+    45.001%, 100% { transform: rotateX(0deg); }
   }
 }

@@ -1,68 +1,94 @@
-﻿'use client';
+'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import { team } from '@/data/team';
-import { SectionHeading, AnimatedReveal } from '@/components/ui';
+import { SectionHeading } from '@/components/ui';
 
 export function Team() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
-    <section className="py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-stone" id="team">
-      <div className="max-w-7xl mx-auto">
-        <AnimatedReveal>
-          <SectionHeading heading="An international team, chosen with care." align="center" />
-        </AnimatedReveal>
+    <section className="py-16 md:py-24 lg:py-32 px-4 md:px-8 lg:px-16 bg-transparent" id="team">
+      <div className="max-w-7xl mx-auto flex flex-col">
+        
+        <SectionHeading 
+          heading="Our Experts" 
+          eyebrow="THE MINDS BEHIND PARMA"
+          className="mb-12 md:mb-16" 
+        />
 
-        <div className="mt-16 md:mt-24 space-y-20 md:space-y-32 lg:space-y-40">
-          {team.map((member, index) => {
-            const isEven = index % 2 === 0;
+        {/* TOP: Horizontal Row of Expanding Images */}
+        <div className="flex h-[40vh] md:h-[50vh] lg:h-[60vh] gap-2 md:gap-4 w-full cursor-pointer">
+          {team.map((member, idx) => {
+            const isActive = activeIndex === idx;
+
             return (
-              <div 
-                key={member.id} 
-                className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 md:gap-12 lg:gap-24 items-center`}
+              <motion.div
+                key={member.id}
+                onMouseEnter={() => setActiveIndex(idx)}
+                onClick={() => setActiveIndex(idx)}
+                // Animate flex-grow to make the active image wide and inactive images narrow
+                animate={{
+                  flex: isActive ? 3 : 1,
+                  filter: isActive ? 'grayscale(0%) brightness(100%)' : 'grayscale(80%) brightness(50%)',
+                }}
+                transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }} // smooth exponential ease
+                className="relative h-full rounded-2xl md:rounded-3xl overflow-hidden group"
               >
-                {/* Image Side - Animated from the side it appears */}
-                <div className="w-full lg:w-1/2">
-                  <AnimatedReveal direction={isEven ? 'left' : 'right'} threshold={0.2}>
-                    <div className="relative aspect-[3/4] w-full max-w-lg mx-auto rounded-2xl overflow-hidden shadow-lg group">
-                      <Image
-                        src={member.image || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80'}
-                        alt={member.name}
-                        fill
-                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                      />
-                    </div>
-                  </AnimatedReveal>
-                </div>
-
-                {/* Info Side - Animated from the opposite side */}
-                <div className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left">
-                  <AnimatedReveal direction={isEven ? 'right' : 'left'} delay={0.2} threshold={0.2}>
-                    <h3 className="font-display text-4xl lg:text-5xl text-charcoal mb-4">
-                      {member.name}
-                    </h3>
-                    <p className="font-body text-sage uppercase tracking-[0.2em] font-medium text-sm mb-8">
-                      {member.role}
-                    </p>
-                    
-                    {member.bio && (
-                      <p className="font-body text-lg text-muted leading-relaxed max-w-xl mx-auto lg:mx-0">
-                        {member.bio}
-                      </p>
-                    )}
-                    
-                    {member.specialty && !member.bio && (
-                      <p className="font-body text-lg text-muted leading-relaxed max-w-xl mx-auto lg:mx-0">
-                        Specializes in {member.specialty}.
-                      </p>
-                    )}
-                  </AnimatedReveal>
-                </div>
-              </div>
+                <Image
+                  src={member.image || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80'}
+                  alt={member.name}
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority={idx === 0}
+                />
+                
+                {/* Optional overlay gradient on narrow slices for style */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </motion.div>
             );
           })}
         </div>
+
+        {/* BOTTOM: Dynamic Info Section */}
+        <div className="mt-8 md:mt-12 h-auto min-h-[200px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="flex flex-col md:flex-row gap-6 md:gap-12 items-start justify-between border-t border-white/10 pt-8"
+            >
+              {/* Left Side: Name and Role */}
+              <div className="md:w-1/3 shrink-0">
+                <h3 className="font-display text-3xl md:text-4xl text-[#C5A059] mb-2">
+                  {team[activeIndex].name}
+                </h3>
+                <p className="font-body text-xs md:text-sm tracking-[0.2em] uppercase text-ivory/80">
+                  {team[activeIndex].role}
+                </p>
+                {team[activeIndex].specialty && (
+                  <p className="font-body text-xs tracking-wider uppercase text-white/50 mt-4 border border-white/10 inline-block px-3 py-1 rounded-full">
+                    {team[activeIndex].specialty}
+                  </p>
+                )}
+              </div>
+
+              {/* Right Side: Detailed Bio */}
+              <div className="md:w-2/3">
+                <p className="font-body text-base md:text-lg text-ivory/90 leading-relaxed max-w-2xl">
+                  {team[activeIndex].bio}
+                </p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
       </div>
     </section>
   );

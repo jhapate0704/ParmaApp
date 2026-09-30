@@ -20,7 +20,7 @@ export function SectionHeading({
   className = ''
 }: SectionHeadingProps) {
   const alignClass = align === 'center' ? 'text-center mx-auto items-center' : 'text-left items-start'
-  const headingColor = dark ? 'text-ivory' : 'text-charcoal'
+  const headingColor = dark ? 'text-ivory' : 'text-ivory'
   const descColor = dark ? 'text-ivory/70' : 'text-muted'
 
   return (

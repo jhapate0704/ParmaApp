@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { Marcellus, Jost } from 'next/font/google';
 import './globals.css';
 
@@ -15,9 +15,13 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: 'Parma in Little Washington | A Private Wellness Sanctuary',
+  title: 'Parma | A Private Wellness Sanctuary',
   description: 'A private wellness sanctuary in the Virginia countryside offering Ayurvedic treatments, spa therapies, and restorative retreats.',
 };
+
+import Header from '@/components/layout/Header';
+import GlobalFooter from '@/components/layout/GlobalFooter';
+import FloatingCTA from '@/components/layout/FloatingCTA';
 
 export default function RootLayout({
   children,
@@ -26,10 +30,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${marcellus.variable} ${jost.variable} antialiased scroll-smooth`}>
-      <body className="bg-ivory text-charcoal font-body min-h-screen overflow-x-hidden">
-        <div className="relative w-full overflow-x-hidden flex flex-col min-h-screen">
-        {children}
-              </div>
+      <body className="bg-dark text-ivory font-body min-h-screen overflow-x-clip">
+        <div className="relative w-full overflow-x-clip flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-1 w-full flex flex-col">
+            {children}
+          </main>
+          <GlobalFooter />
+          <FloatingCTA />
+        </div>
       </body>
     </html>
   );

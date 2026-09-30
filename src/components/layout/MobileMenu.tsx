@@ -62,9 +62,12 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
           animate="open"
           exit="closed"
           variants={menuVariants}
-          className="fixed inset-0 z-30 bg-dark text-ivory flex flex-col justify-center px-8 md:px-16"
+          className="fixed inset-0 z-50 bg-[#0a0a0a]/98 backdrop-blur-2xl text-ivory flex flex-col justify-center px-8 md:px-16"
         >
-          <nav className="flex flex-col space-y-4 md:space-y-6 mt-16 max-h-[70vh] overflow-y-auto pr-4">
+          {/* Subtle gold ambient glow in mobile menu background */}
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#C5A059]/10 rounded-full blur-3xl pointer-events-none" />
+
+          <nav className="relative z-10 flex flex-col space-y-4 md:space-y-6 mt-16 max-h-[70vh] overflow-y-auto pr-4">
             {navItems.flatMap((item: any) => item.dropdown ? item.dropdown : [item]).map((item: any, i) => (
                 <motion.div key={item.label} custom={i} variants={itemVariants}>
                   <Link 
@@ -87,13 +90,13 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
                             }, 300);
                           }
                         }
-                      }}
+                      }} 
                       className="flex items-baseline space-x-6 group"
                     >
-                      <span className="text-xs font-body text-subtle font-medium">
+                      <span className="text-xs font-body text-[#C5A059]/70 font-semibold tracking-widest">
                         {(i + 1).toString().padStart(2, '0')}
                       </span>
-                      <span className="font-display group-hover:text-sage transition-colors duration-300 text-4xl md:text-5xl">
+                      <span className="font-display text-ivory group-hover:text-[#C5A059] group-hover:translate-x-2 transition-all duration-300 text-4xl md:text-5xl">
                         {item.label}
                       </span>
                     </Link>
@@ -102,11 +105,11 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
           </nav>
 
           <motion.div 
-            className="mt-16 md:mt-24 w-full max-w-sm"
+            className="relative z-10 mt-16 md:mt-24 w-full max-w-sm"
             custom={navItems.length} 
             variants={itemVariants}
           >
-            <Button variant="dark" size="lg" className="w-full" onClick={onClose} href="/reserve">
+            <Button variant="primary" size="lg" className="w-full" onClick={onClose} href="/reserve">
               Reserve Your Stay
             </Button>
           </motion.div>

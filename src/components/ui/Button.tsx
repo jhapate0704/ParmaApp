@@ -28,10 +28,10 @@ export function Button({
   const baseStyles = 'inline-flex items-center justify-center uppercase tracking-[0.15em] font-medium font-body transition-colors duration-300'
   
   const variants = {
-    primary: 'bg-sage text-ivory hover:bg-forest',
-    secondary: 'bg-transparent border border-charcoal/20 text-charcoal hover:bg-charcoal hover:text-ivory',
-    ghost: 'bg-transparent text-charcoal hover:text-sage',
-    dark: 'bg-ivory text-dark hover:bg-sand'
+    primary: 'bg-[#C5A059] text-[#0a0a0a] hover:bg-white',
+    secondary: 'bg-transparent border border-ivory/20 text-ivory hover:bg-white hover:text-[#0a0a0a]',
+    ghost: 'bg-transparent text-ivory hover:text-[#C5A059]',
+    dark: 'bg-white text-[#0a0a0a] hover:bg-[#C5A059]'
   }
   
   const sizes = {
@@ -45,7 +45,7 @@ export function Button({
   const innerContent = (
     <>
       {children}
-      {icon && <ArrowRight className="ml-2 w-4 h-4" />}
+      {icon && <ArrowRight className="ml-2 w-4 h-4 shrink-0" />}
     </>
   )
 

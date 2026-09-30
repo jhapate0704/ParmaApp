@@ -26,13 +26,6 @@ export interface TreatmentCategory {
   treatments: Treatment[];
 }
 
-export interface Destination {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  tags: string[];
-}
 
 export interface TeamMember {
   id: string;

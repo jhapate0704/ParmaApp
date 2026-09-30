@@ -1,113 +1,57 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Header from '@/components/layout/Header';
-import MobileMenu from '@/components/layout/MobileMenu';
-import Footer from '@/components/layout/Footer';
-import FloatingCTA from '@/components/layout/FloatingCTA';
-
 import Hero from '@/components/sections/Hero';
-import Introduction from '@/components/sections/Introduction';
 import FourWorlds from '@/components/sections/FourWorlds';
-import ParmaStory from '@/components/sections/ParmaStory';
-import ParmaInn from '@/components/sections/ParmaInn';
-import Spa from '@/components/sections/Spa';
-import WellnessJourney from '@/components/sections/WellnessJourney';
-import Healthcare from '@/components/sections/Healthcare';
-import Meditation from '@/components/sections/Meditation';
-import Destinations from '@/components/sections/Destinations';
+import GallerySection from '@/components/sections/GallerySection';
 import FAQ from '@/components/sections/FAQ';
 import Team from '@/components/sections/Team';
 import Philosophy from '@/components/sections/Philosophy';
-
-import ReservationModal from '@/components/reservation/ReservationModal';
-import { navigationData as navItems } from '@/data/navigation';
+import WellnessJourney from '@/components/sections/WellnessJourney';
+import BookingProcess from '@/components/sections/BookingProcess';
+import AboutJourney from '@/components/sections/AboutJourney';
+import SolarSystem from '@/components/ui/SolarSystem';
+import { Preloader } from '@/components/ui/Preloader';
 
 export default function Home() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-
-  const router = useRouter();
-  const openReservation = () => router.push("/reserve");
-  
-
   return (
     <>
-      <Header 
-         
-         
-         
-      />
+      <Preloader />
       
-      <MobileMenu 
-        isOpen={isMobileMenuOpen} 
-        onClose={() => setIsMobileMenuOpen(false)} 
-        navItems={navItems}
-        
-      />
+      {/* Global Interactive Background */}
+      <div className="fixed inset-0 z-[-10] w-full h-full pointer-events-auto">
+        <SolarSystem />
+      </div>
 
-      <main className="flex-1 w-full flex flex-col">
-        <section id="top">
-          <Hero />
-        </section>
+      <section id="top">
+        <Hero />
+      </section>
 
-        
+      <section id="about">
+        <AboutJourney />
+        <Philosophy />
+      </section>
 
-        
+      <section id="worlds">
+        <FourWorlds />
+      </section>
 
-        <section id="about">
-          <Philosophy />
-          <Introduction />
-          <ParmaStory />
-        </section>
+      <GallerySection />
 
-        <section id="worlds">
-          <FourWorlds />
-        </section>
+      <section id="team">
+        <Team />
+      </section>
 
-        <section id="inn">
-          <ParmaInn />
-        </section>
+      <section id="booking-process">
+        <BookingProcess />
+      </section>
 
-        <section id="spa">
-          <Spa />
-        </section>
+      <section id="wellness">
+        <WellnessJourney />
+      </section>
 
-        <section id="health">
-          <Healthcare  />
-        </section>
-
-        <section id="meditation">
-          <Meditation />
-        </section>
-
-                        <section id="team">
-          <Team />
-        </section>
-
-        <section id="wellness">
-          <WellnessJourney  />
-        </section>
-
-        <section id="faq">
-          <FAQ />
-        </section>
-
-        <section id="explore">
-          <Destinations />
-        </section>
-
-        
-
-
-      </main>
-
-      <Footer  />
-      
-      <FloatingCTA onReserveClick={openReservation} />
-      
-      
+      <section id="faq">
+        <FAQ />
+      </section>
     </>
   );
 }

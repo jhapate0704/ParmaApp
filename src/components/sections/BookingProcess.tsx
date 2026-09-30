@@ -103,7 +103,7 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
 
  // Interactive Rocket State
  const [isFlying, setIsFlying] = useState(false);
- const [flightPath, setFlightPath] = useState({ x: [0], y: [0], rotate: [0], scale: [1] });
+ const [flightPath, setFlightPath] = useState<{ x: (string | number)[]; y: (string | number)[]; rotate: number[]; scale: number[]; }>({ x: [0], y: [0], rotate: [0], scale: [1] });
 
  const handleRocketClick = () => {
    if (isFlying) return;

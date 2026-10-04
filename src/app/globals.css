@@ -5,13 +5,12 @@
   --color-stone: #F0ECE4;
   --color-sand: #E8E2D8;
   --color-charcoal: #2C2C2C;
-  --color-muted: #7A7468;
-  --color-subtle: #B5AFA6;
-  --color-sage: #C5A059;       /* Was sage, now Luxury Champagne Gold */
-  --color-sage-light: #E8D3A2; /* Was sage-light, now Light Champagne */
-  --color-forest: #8B6D45;     /* Was forest, now Deep Gold/Copper */
-  --color-bronze: #9E7E5A;
-  --color-terra: #B87A5E;
+  --color-muted: #E2DBD0; /* High-legibility Warm Alabaster */
+  --color-subtle: #CFC8BE;
+  --color-terracotta: #C86D51; /* Primary Brand Terracotta */
+  --color-terracotta-light: #E08E74; /* Soft Ember */
+  --color-terracotta-deep: #A7533A; /* Burnt Clay */
+  --color-terracotta-dark: #8F3524; /* Base Gradient Earth */
   --color-dark: #000000;
   --color-dark-surface: #0a0a0a;
   --font-display: 'Marcellus', serif;
@@ -28,7 +27,7 @@
   }
 
   ::selection {
-    @apply bg-sage text-ivory;
+    @apply bg-terracotta text-ivory;
   }
   
   ::-webkit-scrollbar {
@@ -36,15 +35,16 @@
   }
   
   ::-webkit-scrollbar-track {
-    @apply bg-ivory;
+    background: #0a0a0a;
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-stone rounded-full;
+    background: rgba(200, 109, 81, 0.4);
+    border-radius: 9999px;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-subtle;
+    background: #C86D51;
   }
 }
 
@@ -97,4 +97,213 @@
     */
     45.001%, 100% { transform: rotateX(0deg); }
   }
+}
+
+/* Principle 2 & 10: Layered Terracotta Gradients */
+.hero,
+.terracotta-gradient-bg {
+  background:
+    radial-gradient(
+      circle at 20% 15%,
+      rgba(255, 210, 190, 0.28),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(90, 25, 15, 0.28),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #D87555 0%,
+      #C65A3A 48%,
+      #8F3524 100%
+    );
+}
+
+/* ==========================================================================
+   PHYSICAL TERRACOTTA CAST SHADOW SYSTEM (High-Fidelity Architectural Depth)
+   Light Source: Top-Left (x = -1, y = -1) at [20% 15%]
+   Shadow Direction: Bottom-Right (x = +1, y = +1)
+   Base Surface: Terracotta (#C65A3A)
+   Umbra Color: Deep Burnt Umber (#2D0D07 / rgba(40, 12, 6))
+   Penumbra Color: Rich Terracotta Umber (#4D190E / rgba(74, 25, 14))
+   ========================================================================== */
+
+/* Tight, razor-sharp contact shadow (Umbra) */
+.terracotta-contact-shadow {
+  box-shadow: 
+    0 1px 2px rgba(40, 12, 6, 0.65),
+    2px 4px 8px -1px rgba(48, 15, 8, 0.55),
+    5px 10px 18px -2px rgba(62, 20, 11, 0.40);
+}
+
+/* Complete physical card with multi-layer stepped sunlight cast shadow */
+.terracotta-card {
+  position: relative;
+  box-shadow: 
+    /* Layer 1: Razor-sharp contact umbra along bottom-right edge */
+    0 1px 3px rgba(40, 12, 6, 0.65),
+    /* Layer 2: Tight dark contact base */
+    3px 5px 8px -1px rgba(48, 15, 8, 0.55),
+    /* Layer 3: Near projected silhouette */
+    8px 14px 22px -3px rgba(60, 19, 10, 0.45),
+    /* Layer 4: Mid projected body extending down-right */
+    18px 28px 42px -5px rgba(74, 25, 14, 0.32),
+    /* Layer 5: Soft penumbra trail dissolving into terracotta floor */
+    32px 50px 70px -8px rgba(90, 30, 17, 0.18);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dedicated Ground Projection Layer: Distorted by perspective & angled sunlight */
+.terracotta-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  transform-origin: 0% 0%;
+  transform: translate3d(16px, 26px, 0) skewX(-8deg) skewY(3deg) scale(0.98, 1.02);
+  background: linear-gradient(
+    135deg,
+    rgba(45, 13, 7, 0.70) 0%,
+    rgba(58, 18, 10, 0.50) 35%,
+    rgba(75, 25, 14, 0.28) 65%,
+    rgba(92, 32, 18, 0.10) 85%,
+    transparent 100%
+  );
+  filter: blur(12px);
+  opacity: 0.95;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Interactive Hover Physics:
+   1. Card lifts slightly toward top-left light source (-5px, -7px)
+   2. Contact shadow tightens & separates slightly
+   3. Projected cast shadow elongates significantly down-right (30px, 46px) and diffuses
+*/
+.terracotta-card:hover {
+  transform: translate3d(-5px, -7px, 0);
+  box-shadow: 
+    0 2px 4px rgba(40, 12, 6, 0.50),
+    4px 8px 14px -1px rgba(48, 15, 8, 0.48),
+    12px 22px 32px -3px rgba(60, 19, 10, 0.40),
+    26px 42px 58px -5px rgba(74, 25, 14, 0.28),
+    48px 72px 95px -8px rgba(90, 30, 17, 0.15);
+}
+
+.terracotta-card:hover::after {
+  transform: translate3d(30px, 46px, 0) skewX(-11deg) skewY(4deg) scale(0.97, 1.04);
+  filter: blur(18px);
+  opacity: 0.88;
+}
+
+/* Directional Button Shadow matching global lighting */
+.terracotta-btn-shadow {
+  box-shadow: 
+    0 1px 2px rgba(40, 12, 6, 0.55),
+    2px 4px 10px -1px rgba(48, 15, 8, 0.45),
+    6px 10px 20px -2px rgba(62, 20, 11, 0.30);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.terracotta-btn-shadow:hover {
+  transform: translate3d(-2px, -3px, 0);
+  box-shadow: 
+    0 2px 4px rgba(40, 12, 6, 0.45),
+    4px 8px 16px -1px rgba(48, 15, 8, 0.40),
+    10px 16px 28px -2px rgba(62, 20, 11, 0.35);
+}
+
+/* ==========================================================================
+   SERVICE-SPECIFIC BACKGROUND ATMOSPHERES
+   Tailored to each service type's unique aesthetic identity
+   ========================================================================== */
+
+/* 1. Parma Inn (/inn): Hearth Amber & Tuscan Sandstone Retreat */
+.bg-service-inn {
+  background:
+    radial-gradient(
+      circle at 18% 20%,
+      rgba(224, 142, 116, 0.28),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 82% 80%,
+      rgba(143, 66, 45, 0.32),
+      transparent 42%
+    ),
+    linear-gradient(
+      145deg,
+      #1C120C 0%,
+      #2A1810 48%,
+      #140B06 100%
+    );
+}
+
+/* 2. Parma Spa (/spa): Restorative Thermal Hydrotherapy & Eucalyptus Mist */
+.bg-service-spa {
+  background:
+    radial-gradient(
+      circle at 20% 22%,
+      rgba(64, 138, 126, 0.30),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 78%,
+      rgba(198, 109, 81, 0.20),
+      transparent 42%
+    ),
+    linear-gradient(
+      150deg,
+      #091715 0%,
+      #122320 46%,
+      #07110F 100%
+    );
+}
+
+/* 3. Healthcare (/health): Integrative Medicine & Botanical Vitality */
+.bg-service-health {
+  background:
+    radial-gradient(
+      circle at 22% 20%,
+      rgba(96, 148, 118, 0.28),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 82%,
+      rgba(167, 83, 58, 0.22),
+      transparent 40%
+    ),
+    linear-gradient(
+      145deg,
+      #091512 0%,
+      #12221B 50%,
+      #07100D 100%
+    );
+}
+
+/* 4. Meditation (/meditation): Twilight Zen & Celestial Stillness */
+.bg-service-meditation {
+  background:
+    radial-gradient(
+      circle at 25% 20%,
+      rgba(125, 95, 175, 0.28),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 78% 78%,
+      rgba(200, 109, 81, 0.20),
+      transparent 44%
+    ),
+    linear-gradient(
+      160deg,
+      #090815 0%,
+      #131026 50%,
+      #060510 100%
+    );
 }

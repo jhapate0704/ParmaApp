@@ -4,6 +4,11 @@ import Spa from '@/components/sections/Spa';
 export default function SpaPage() {
   return (
     <>
+      {/* Parma Inn Terracotta Theme Background */}
+      <div 
+        className="fixed inset-0 z-[-10] w-full h-full pointer-events-none bg-service-inn" 
+        aria-hidden="true"
+      />
       <ServiceHero 
         title="The Spa"
         subtitle="Experience rejuvenating therapies rooted in ancient Ayurvedic wisdom and modern wellness practices."

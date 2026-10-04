@@ -98,7 +98,7 @@ export function ShareButton({
       name: 'X (Twitter)',
       url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTitle)}&url=${encodeURIComponent(getShareUrl())}`,
       icon: (
-        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
         </svg>
       ),
@@ -107,7 +107,7 @@ export function ShareButton({
       name: 'LinkedIn',
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(getShareUrl())}`,
       icon: (
-        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
         </svg>
       ),
@@ -116,7 +116,7 @@ export function ShareButton({
       name: 'Facebook',
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`,
       icon: (
-        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
         </svg>
       ),
@@ -132,18 +132,18 @@ export function ShareButton({
         title="Share Parma"
         className={`group flex items-center justify-center transition-all duration-300 ${
           variant === 'floating'
-            ? 'w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#0a0a0a]/90 hover:bg-black backdrop-blur-xl border border-[#C5A059]/50 hover:border-[#C5A059] text-[#C5A059] shadow-[0_8px_25px_rgba(0,0,0,0.6),0_0_15px_rgba(197,160,89,0.25)] hover:shadow-[0_8px_30px_rgba(197,160,89,0.4)] hover:scale-110 active:scale-95'
+            ? 'w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#0a0a0a]/90 hover:bg-black backdrop-blur-xl border border-[#FFE0D2]/50 hover:border-[#FFE0D2] text-[#FFE0D2] shadow-[0_8px_25px_rgba(0,0,0,0.6),0_0_15px_rgba(255,224,210,0.25)] hover:shadow-[0_8px_30px_rgba(255,224,210,0.4)] hover:scale-110 active:scale-95'
             : variant === 'pill'
-            ? 'px-3.5 py-2 rounded-full text-ivory/80 hover:text-[#C5A059] hover:bg-white/10 gap-1.5 text-xs md:text-sm tracking-[0.12em] uppercase font-medium font-body'
+            ? 'px-3.5 py-2 rounded-full text-ivory/80 hover:text-white hover:bg-white/10 gap-1.5 text-xs md:text-sm tracking-[0.12em] uppercase font-medium font-body'
             : variant === 'drawer'
-            ? 'w-full py-3 px-4 rounded-xl border border-white/10 hover:border-[#C5A059]/40 bg-white/5 hover:bg-[#C5A059]/10 text-ivory hover:text-[#C5A059] gap-3 text-sm tracking-wider uppercase font-body flex items-center justify-center'
-            : 'w-8 h-8 rounded-full text-ivory/80 hover:text-[#C5A059] hover:bg-white/10'
+            ? 'w-full py-3 px-4 rounded-xl border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 text-ivory hover:text-white gap-3 text-sm tracking-wider uppercase font-body flex items-center justify-center'
+            : 'w-8 h-8 rounded-full text-ivory/80 hover:text-white hover:bg-white/10'
         }`}
       >
         {/* Luxury Share SVG Icon */}
         <svg
           className={`transition-transform duration-300 group-hover:scale-110 ${
-            variant === 'floating' ? 'w-5 h-5 text-[#C5A059]' : 'w-4 h-4'
+            variant === 'floating' ? 'w-5 h-5 text-[#FFE0D2]' : 'w-4 h-4'
           }`}
           viewBox="0 0 24 24"
           fill="none"
@@ -170,12 +170,12 @@ export function ShareButton({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: isUp ? 8 : -8, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className={`absolute right-0 w-72 md:w-80 rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-2xl border border-[#C5A059]/40 shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(197,160,89,0.25)] p-4 z-50 overflow-hidden text-left ${
+            className={`absolute right-0 w-72 md:w-80 rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-2xl border border-[#C86D51]/40 shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(200,109,81,0.25)] p-4 z-50 overflow-hidden text-left ${
               isUp ? 'bottom-full mb-3' : 'top-full mt-3'
             }`}
           >
             {/* Top gold line */}
-            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#C5A059] to-transparent opacity-80" />
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#C86D51] to-transparent opacity-80" />
 
             {/* Crest & Title Header */}
             <div className="flex items-center gap-3 pb-3 border-b border-white/10">
@@ -185,7 +185,7 @@ export function ShareButton({
                 className="w-8 h-10 object-contain shrink-0"
               />
               <div className="flex flex-col">
-                <span className="font-display text-sm tracking-widest text-[#C5A059] uppercase">
+                <span className="font-display text-sm tracking-widest text-[#FFE0D2] uppercase">
                   Parma Sanctuary
                 </span>
                 <span className="font-body text-[11px] text-ivory/60 line-clamp-1">
@@ -202,13 +202,13 @@ export function ShareButton({
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col items-center justify-center py-2.5 px-1 rounded-xl bg-white/5 hover:bg-[#C5A059]/15 border border-white/5 hover:border-[#C5A059]/30 text-ivory/80 hover:text-[#C5A059] transition-all duration-300 group"
+                  className="flex flex-col items-center justify-center py-2.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-ivory/80 hover:text-white transition-all duration-300 group"
                   title={`Share on ${item.name}`}
                 >
                   <div className="w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                     {item.icon}
                   </div>
-                  <span className="text-[10px] tracking-wider uppercase font-body mt-1 text-ivory/60 group-hover:text-[#C5A059]">
+                  <span className="text-[10px] tracking-wider uppercase font-body mt-1 text-ivory/60 group-hover:text-white">
                     {item.name.split(' ')[0]}
                   </span>
                 </a>
@@ -219,12 +219,12 @@ export function ShareButton({
             <div className="pt-2 border-t border-white/10">
               <button
                 onClick={handleCopyLink}
-                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white/5 hover:bg-[#C5A059]/15 border border-white/10 hover:border-[#C5A059]/40 text-ivory text-xs font-body tracking-wider transition-all duration-300 group"
+                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-ivory text-xs font-body tracking-wider transition-all duration-300 group"
               >
                 <div className="flex items-center gap-2 truncate pr-2">
                   {copied ? (
                     <svg
-                      className="w-4 h-4 text-[#C5A059] shrink-0"
+                      className="w-4 h-4 text-[#FFE0D2] shrink-0"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -234,7 +234,7 @@ export function ShareButton({
                     </svg>
                   ) : (
                     <svg
-                      className="w-4 h-4 text-ivory/60 group-hover:text-[#C5A059] shrink-0 transition-colors"
+                      className="w-4 h-4 text-ivory/60 group-hover:text-white shrink-0 transition-colors"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -244,11 +244,11 @@ export function ShareButton({
                       <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                     </svg>
                   )}
-                  <span className={copied ? 'text-[#C5A059] font-semibold' : 'text-ivory/80 group-hover:text-white'}>
+                  <span className={copied ? 'text-[#FFE0D2] font-semibold' : 'text-ivory/80 group-hover:text-white'}>
                     {copied ? 'Link Copied to Clipboard!' : 'Copy Website Link'}
                   </span>
                 </div>
-                <span className="text-[10px] uppercase font-semibold text-[#C5A059] bg-[#C5A059]/10 px-2 py-0.5 rounded-full border border-[#C5A059]/30">
+                <span className="text-[10px] uppercase font-semibold text-[#FFE0D2] bg-[#FFE0D2]/15 px-2 py-0.5 rounded-full border border-[#FFE0D2]/30">
                   {copied ? 'Done' : 'Copy'}
                 </span>
               </button>

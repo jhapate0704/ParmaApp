@@ -72,6 +72,7 @@ export const metadata: Metadata = {
 import Header from '@/components/layout/Header';
 import GlobalFooter from '@/components/layout/GlobalFooter';
 import FloatingCTA from '@/components/layout/FloatingCTA';
+import { Preloader } from '@/components/ui/Preloader';
 
 export default function RootLayout({
   children,
@@ -81,6 +82,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${marcellus.variable} ${jost.variable} antialiased scroll-smooth`}>
       <body className="bg-dark text-ivory font-body min-h-screen overflow-x-clip">
+        <Preloader />
         <div className="relative w-full overflow-x-clip flex flex-col min-h-screen">
           <Header />
           <main className="flex-1 w-full flex flex-col">

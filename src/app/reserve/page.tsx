@@ -43,18 +43,14 @@ function ReserveContent() {
   };
 
   return (
-    <div className="min-h-screen text-ivory flex flex-col relative overflow-hidden bg-[#050505]">
-      {/* Background Video with Rich Midnight Overlays */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-40">
-          <source src="https://res.cloudinary.com/ohelitbr/video/upload/v1783843486/samples/sea-turtle.mp4" type="video/mp4" />
-        </video>
-        {/* Midnight Theme Gradient Grids */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/80 to-[#050505]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_15%,#000000_90%)]" />
-      </div>
-      
-      {/* Main Content wrapper above video */}
+    <div className="min-h-screen text-ivory flex flex-col relative overflow-hidden bg-transparent">
+      {/* Parma Inn Terracotta Theme Background */}
+      <div 
+        className="fixed inset-0 z-0 w-full h-full pointer-events-none bg-service-inn" 
+        aria-hidden="true"
+      />
+
+      {/* Main Content wrapper */}
       <div className="relative z-10 flex flex-col min-h-screen">
         
         {/* Luxury Header */}
@@ -62,7 +58,7 @@ function ReserveContent() {
           <div>
             <Link 
               href="/" 
-              className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-body font-medium uppercase tracking-[0.14em] text-ivory/80 bg-black/60 backdrop-blur-xl border border-white/10 hover:border-[#C5A059]/60 hover:text-[#C5A059] transition-all duration-300 shadow-lg group"
+              className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-body font-medium uppercase tracking-[0.14em] text-ivory/80 bg-black/60 backdrop-blur-xl border border-white/10 hover:border-[#FFE0D2]/60 hover:text-white transition-all duration-300 shadow-lg group"
             >
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" /> 
               <span>Back to Home</span>
@@ -70,8 +66,8 @@ function ReserveContent() {
           </div>
           
           <div className="flex items-center space-x-2">
-            <img src="/parma-official-crest.png" alt="Parma Crest" className="w-8 h-8 object-contain" />
-            <span className="font-display text-xl md:text-2xl uppercase tracking-[0.2em] text-[#C5A059]">Parma</span>
+            <img src="/icon.png" alt="Parma Crest" className="w-8 h-8 object-contain" />
+            <span className="font-display text-xl md:text-2xl uppercase tracking-[0.2em] text-[#FFE0D2]">Parma</span>
           </div>
           
           {/* Spacer for balance */}
@@ -100,7 +96,7 @@ function ReserveContent() {
               {/* Trust Badges */}
               <div className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 max-w-lg">
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-[#C5A059]/10 text-[#C5A059] shrink-0 mt-0.5">
+                  <div className="p-2 rounded-lg bg-[#FFE0D2]/15 text-[#FFE0D2] shrink-0 mt-0.5">
                     <Sparkles className="w-4 h-4" />
                   </div>
                   <div>
@@ -110,7 +106,7 @@ function ReserveContent() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-[#C5A059]/10 text-[#C5A059] shrink-0 mt-0.5">
+                  <div className="p-2 rounded-lg bg-[#FFE0D2]/15 text-[#FFE0D2] shrink-0 mt-0.5">
                     <Clock className="w-4 h-4" />
                   </div>
                   <div>
@@ -120,7 +116,7 @@ function ReserveContent() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-[#C5A059]/10 text-[#C5A059] shrink-0 mt-0.5">
+                  <div className="p-2 rounded-lg bg-[#FFE0D2]/15 text-[#FFE0D2] shrink-0 mt-0.5">
                     <Shield className="w-4 h-4" />
                   </div>
                   <div>
@@ -136,24 +132,24 @@ function ReserveContent() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="bg-[#0a0a0a]/90 backdrop-blur-2xl p-8 md:p-12 rounded-3xl border border-[#C5A059]/30 shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(197,160,89,0.1)] relative overflow-hidden"
+              className="bg-[#160E0B]/85 backdrop-blur-2xl p-8 md:p-12 rounded-3xl border border-[#FFE0D2]/25 shadow-[0_2px_4px_rgba(40,12,6,0.65),4px_8px_16px_-2px_rgba(48,15,8,0.55),12px_20px_36px_-4px_rgba(60,19,10,0.40),24px_38px_55px_-6px_rgba(74,25,14,0.25)] relative overflow-hidden terracotta-card"
             >
-              {/* Top ambient gold shimmer line */}
-              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#C5A059] to-transparent opacity-80" />
+              {/* Top ambient terracotta shimmer line */}
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#FFE0D2] to-transparent opacity-80" />
 
               {submitted ? (
                 <div className="text-center py-10 flex flex-col items-center">
-                  <div className="w-16 h-16 rounded-full bg-[#C5A059]/15 border border-[#C5A059]/40 flex items-center justify-center mb-6 shadow-[0_0_25px_rgba(197,160,89,0.3)]">
-                    <Check className="w-8 h-8 text-[#C5A059]" />
+                  <div className="w-16 h-16 rounded-full bg-[#FFE0D2]/15 border border-[#FFE0D2]/40 flex items-center justify-center mb-6 shadow-[0_0_25px_rgba(255,224,210,0.3)]">
+                    <Check className="w-8 h-8 text-[#FFE0D2]" />
                   </div>
                   <h3 className="font-display text-3xl md:text-4xl text-ivory mb-3">Request Received</h3>
                   <p className="font-body text-ivory/70 max-w-sm mb-6 leading-relaxed">
                     Thank you. Our sanctuary concierge will contact you within 24 hours to confirm your dates and preferences.
                   </p>
-                  <p className="font-body text-xs text-[#C5A059] tracking-widest uppercase animate-pulse mb-8">
+                  <p className="font-body text-xs text-[#FFE0D2] tracking-widest uppercase opacity-70 mb-8">
                     Redirecting to homepage...
                   </p>
-                  <Button variant="secondary" onClick={() => setSubmitted(false)}>
+                  <Button variant="secondary" onClick={() => setSubmitted(false)} className="px-8 border-ivory/20 hover:!bg-[#C65A3A] hover:!border-[#C65A3A] hover:!text-white transition-all duration-300 terracotta-btn-shadow">
                     Submit Another Request
                   </Button>
                 </div>
@@ -169,7 +165,7 @@ function ReserveContent() {
                       <input 
                         required 
                         type="text" 
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 font-body text-sm text-ivory focus:outline-none focus:border-[#C5A059] focus:bg-[#C5A059]/5 transition-all duration-300 placeholder:text-ivory/30" 
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 font-body text-sm text-ivory focus:outline-none focus:border-[#FFE0D2] focus:bg-white/5 transition-all duration-300 placeholder:text-ivory/30" 
                         placeholder="Jane Doe" 
                       />
                     </div>
@@ -180,7 +176,7 @@ function ReserveContent() {
                       <input 
                         required 
                         type="tel" 
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 font-body text-sm text-ivory focus:outline-none focus:border-[#C5A059] focus:bg-[#C5A059]/5 transition-all duration-300 placeholder:text-ivory/30" 
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 font-body text-sm text-ivory focus:outline-none focus:border-[#FFE0D2] focus:bg-white/5 transition-all duration-300 placeholder:text-ivory/30" 
                         placeholder="+1 (555) 000-0000" 
                       />
                     </div>
@@ -194,7 +190,7 @@ function ReserveContent() {
                     <input 
                       required 
                       type="email" 
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 font-body text-sm text-ivory focus:outline-none focus:border-[#C5A059] focus:bg-[#C5A059]/5 transition-all duration-300 placeholder:text-ivory/30" 
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 font-body text-sm text-ivory focus:outline-none focus:border-[#FFE0D2] focus:bg-white/5 transition-all duration-300 placeholder:text-ivory/30" 
                       placeholder="jane@example.com" 
                     />
                   </div>
@@ -203,7 +199,7 @@ function ReserveContent() {
                   <div className="space-y-3">
                     <label className="text-xs uppercase tracking-[0.18em] font-body text-ivory/70 font-medium flex items-center justify-between">
                       <span>Experiences Requested</span>
-                      <span className="text-[10px] text-[#C5A059] lowercase">(select all that apply)</span>
+                      <span className="text-[10px] text-[#FFE0D2] lowercase">(select all that apply)</span>
                     </label>
                     <div className="flex flex-wrap gap-2.5">
                       {['Parma Inn Stay', 'Spa Treatment', 'Healthcare Consultation', 'Meditation Session'].map(service => {
@@ -215,8 +211,8 @@ function ReserveContent() {
                             onClick={() => toggleService(service)}
                             className={`px-4 py-2.5 rounded-full text-xs uppercase tracking-[0.12em] font-body font-medium transition-all duration-300 border ${
                               isSelected 
-                                ? 'bg-[#C5A059] border-[#C5A059] text-black font-semibold shadow-[0_0_15px_rgba(197,160,89,0.35)] scale-[1.02]' 
-                                : 'bg-white/[0.03] border-white/15 text-ivory/70 hover:border-[#C5A059]/50 hover:text-ivory'
+                                ? 'bg-[#C86D51] border-[#FFE0D2]/50 text-white font-semibold shadow-[0_4px_14px_rgba(200,109,81,0.45)] scale-[1.02] terracotta-btn-shadow' 
+                                : 'bg-white/[0.04] border-white/15 text-ivory/80 hover:border-[#FFE0D2]/50 hover:text-white'
                             }`}
                           >
                             {service}
@@ -235,14 +231,14 @@ function ReserveContent() {
                     </label>
                     <textarea 
                       rows={3} 
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 font-body text-sm text-ivory focus:outline-none focus:border-[#C5A059] focus:bg-[#C5A059]/5 transition-all duration-300 placeholder:text-ivory/30 resize-none" 
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 font-body text-sm text-ivory focus:outline-none focus:border-[#FFE0D2] focus:bg-white/5 transition-all duration-300 placeholder:text-ivory/30 resize-none" 
                       placeholder="Preferred dates, health objectives, or personalized requests..."
                     />
                   </div>
 
                   {/* Submit Button */}
                   <div className="pt-2">
-                    <Button variant="primary" size="lg" className="w-full justify-center shadow-[0_0_20px_rgba(197,160,89,0.25)]">
+                    <Button variant="primary" size="lg" className="w-full justify-center shadow-[0_4px_20px_rgba(200,109,81,0.35)] hover:!bg-[#C86D51] hover:!border-[#C86D51] hover:!text-white transition-all duration-300 terracotta-btn-shadow">
                       Submit Reservation Request
                     </Button>
                   </div>
@@ -262,7 +258,7 @@ function ReserveContent() {
 
 export default function ReservePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex bg-[#050505] text-[#C5A059] items-center justify-center font-display text-2xl">Loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex bg-[#140B06] text-[#FFE0D2] items-center justify-center font-display text-2xl">Loading...</div>}>
       <ReserveContent />
     </Suspense>
   );

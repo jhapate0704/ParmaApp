@@ -4,6 +4,11 @@ import Healthcare from '@/components/sections/Healthcare';
 export default function HealthcarePage() {
   return (
     <>
+      {/* Parma Inn Terracotta Theme Background */}
+      <div 
+        className="fixed inset-0 z-[-10] w-full h-full pointer-events-none bg-service-inn" 
+        aria-hidden="true"
+      />
       <ServiceHero 
         title="Healthcare"
         subtitle="Integrative and proactive medicine led by world-class physicians."

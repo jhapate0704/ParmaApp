@@ -2,15 +2,23 @@
 
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { ChevronDown, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { GestureHint } from '@/components/ui/GestureHint';
 
+// FIX P4: Curated on-brand hover palette — replaces the off-brand random HSL rainbow
+const BRAND_HOVER_COLORS = [
+  '#FFE0D2', // Peach accent
+  '#E08E74', // Light ember
+  '#FAF7F2', // Ivory
+  '#D87555', // Light terracotta
+  '#F0ECE4', // Stone
+  '#C86D51', // Primary terracotta
+];
+
 /**
  * HeroHoverLetter Component
- * WHY: This component exists to wrap a single letter in state. By keeping the color state locally 
- * scoped to the letter, we force a new random color to be generated *every single time* the user 
- * hovers over it. If we generated the color at the parent level, it would stay the same color forever!
+ * Uses curated brand color palette instead of random full-spectrum HSL.
  */
 const HeroHoverLetter = ({ char }: { char: string }) => {
   const [hoverColor, setHoverColor] = useState<string | undefined>(undefined);
@@ -18,8 +26,6 @@ const HeroHoverLetter = ({ char }: { char: string }) => {
   return (
     <motion.span
       variants={{
-        // WHY: rotateX(-90) makes the letter fold perfectly flat backward into the screen. 
-        // y: 20 drops it down slightly so it looks like it is rising out of a physical slot.
         hidden: { rotateX: -90, y: 20, opacity: 0 },
         visible: { 
           rotateX: 0, 
@@ -28,12 +34,13 @@ const HeroHoverLetter = ({ char }: { char: string }) => {
           transition: { duration: 0.8, type: "spring", bounce: 0.4 } 
         }
       }}
-      // Generate the fresh color precisely when the mouse touches the bounding box.
-      onHoverStart={() => setHoverColor(`hsl(${Math.floor(Math.random() * 360)}, 80%, 75%)`)}
+      onHoverStart={() =>
+        setHoverColor(BRAND_HOVER_COLORS[Math.floor(Math.random() * BRAND_HOVER_COLORS.length)])
+      }
       onHoverEnd={() => setHoverColor(undefined)}
       whileHover={{ scale: 1.2, zIndex: 10 }}
       style={{ 
-        transformOrigin: "bottom", // Critical for 3D effect: makes it fold like a hinge rather than spinning in place
+        transformOrigin: "bottom",
         color: hoverColor || "inherit",
         transition: "color 0.1s ease-out" 
       }}
@@ -47,8 +54,7 @@ const HeroHoverLetter = ({ char }: { char: string }) => {
 
 /**
  * SplitText Component
- * WHY: We need to break strings into individual words, and then words into individual characters, 
- * so that we can stagger their entrance animation sequentially (like a typewriter or wave).
+ * Breaks strings into words → characters for staggered entrance animation.
  */
 function SplitText({ children, delay = 0, className = "" }: { children: string, delay?: number, className?: string }) {
   const words = children.split(" ");
@@ -57,7 +63,6 @@ function SplitText({ children, delay = 0, className = "" }: { children: string, 
       initial="hidden"
       animate="visible"
       variants={{
-        // WHY: staggerChildren ensures each letter waits for the previous one before animating.
         visible: { transition: { staggerChildren: 0.03, delayChildren: delay } },
         hidden: {}
       }}
@@ -69,8 +74,6 @@ function SplitText({ children, delay = 0, className = "" }: { children: string, 
             <span 
               key={j} 
               className="inline-flex py-[0.05em] px-[0.02em]" 
-              // WHY: Perspective MUST be on the direct parent of the 3D transformed element. 
-              // If placed on a higher wrapper, the 3D effect flattens into a 2D scale.
               style={{ perspective: "400px" }} 
             >
               <HeroHoverLetter char={char} />
@@ -84,13 +87,11 @@ function SplitText({ children, delay = 0, className = "" }: { children: string, 
 
 function Hero() {
   const containerRef = useRef<HTMLElement>(null);
-  // Ref for the specific video card to track mouse movements correctly when scaled
   const cardRef = useRef<HTMLDivElement>(null);
   
   const [ripples, setRipples] = useState<{ id: number, x: number, y: number }[]>([]);
   const lastRippleTime = useRef(0);
 
-  // Track the scroll progress through this 200vh tall section
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
@@ -99,20 +100,15 @@ function Hero() {
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
 
-  // Raw scroll-driven values (numeric for spring compatibility)
   const rawScale  = useTransform(scrollYProgress, [0, 0.4, 1], [1, 0.25, 0.25]);
   const rawYNum   = useTransform(scrollYProgress, [0, 0.4, 1], [0, 0, -150]);
 
-  // ── PERFORMANCE FIX 1: useSpring as a low-pass filter ───────────────────
-  // Raw scroll events fire erratically (not at 60fps). useSpring smooths
-  // every raw value into a silky 60fps interpolated output, eliminating jank.
   const cardScale = useSpring(rawScale, { stiffness: 120, damping: 20, mass: 0.5 });
   const cardYNum  = useSpring(rawYNum,  { stiffness: 120, damping: 20, mass: 0.5 });
   const cardY     = useTransform(cardYNum, (v) => `${v}%`);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const now = Date.now();
-    // ── PERFORMANCE FIX 2: 50ms throttle (was 25ms) ──
     if (now - lastRippleTime.current > 50) {
       const rect = cardRef.current?.getBoundingClientRect();
       if (rect) {
@@ -135,35 +131,39 @@ function Hero() {
       {/* STICKY WRAPPER */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center pointer-events-none">
 
-        {/* Foreground Layer: The Shrinking Video Card */}
-        {/* 
-          PERFORMANCE FIX 3: will-change: transform
-          Pre-promotes this element to its own GPU compositing layer before scroll
-          starts. Without this, the browser promotes/demotes it mid-animation
-          which causes the visible jank flash.
+        {/* Physical Projected Cast Shadow */}
+        <motion.div
+          style={{
+            scale: cardScale,
+            y: cardY,
+            willChange: "transform",
+          }}
+          className="absolute inset-0 w-full h-full pointer-events-none -z-10 flex items-center justify-center"
+        >
+          <div 
+            className="w-full h-full rounded-2xl transform translate-x-6 md:translate-x-14 translate-y-8 md:translate-y-20 skew-x-[-8deg] skew-y-[3deg] scale-[0.98]"
+            style={{
+              background: "linear-gradient(135deg, rgba(42, 13, 7, 0.85) 0%, rgba(55, 17, 9, 0.65) 30%, rgba(74, 25, 14, 0.38) 65%, rgba(92, 32, 18, 0.12) 88%, transparent 100%)",
+              filter: "blur(14px)",
+            }}
+          />
+        </motion.div>
 
-          PERFORMANCE FIX 4: Static borderRadius via CSS transition
-          Animating borderRadius via Framer Motion forces GPU layer re-rasterization
-          every frame. Instead we use a CSS transition on a data-attribute toggle.
-        */}
+        {/* Foreground Layer: The Shrinking Video Card */}
         <motion.div
           ref={cardRef}
           onMouseMove={handleMouseMove}
           style={{
             scale: cardScale,
             y: cardY,
-            boxShadow: "0 25px 50px -12px rgba(0,0,0,0.7)",
+            boxShadow: "0 2px 4px rgba(40,12,6,0.70), 4px 8px 16px -2px rgba(48,15,8,0.60), 12px 20px 36px -4px rgba(60,19,10,0.48), 26px 44px 68px -6px rgba(74,25,14,0.32), 48px 76px 105px -10px rgba(90,30,17,0.18)",
             willChange: "transform",
             borderRadius: 0,
           }}
           className="relative w-full h-full overflow-hidden bg-dark transform-gpu pointer-events-auto"
         >
           
-          {/* 
-            Interactive Fluid Wave Wake 
-            WHY Z-5?: It must sit above the video (z-0) so it can blur it, but below the 
-            gradient overlay (z-10) and text (z-20) so the ripples don't blur the readable text!
-          */}
+          {/* Interactive Fluid Wave Wake */}
           <div className="absolute inset-0 z-[5] pointer-events-none overflow-hidden">
             <AnimatePresence>
               {ripples.map(r => (
@@ -209,22 +209,27 @@ function Hero() {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 4.5 }}
+              // FIX P1: Reduced from delay 4.5 to 0.8 — location appears promptly
+              transition={{ duration: 1, delay: 0.8 }}
             >
-              <p className="flex items-center text-ivory uppercase tracking-[0.25em] text-sm md:text-base font-body font-medium mb-6">
-                RAPPAHANNOCK COUNTY | VIRGINIA <MapPin className="ml-2 w-4 h-4 text-sage" />
+              <p className="flex items-center text-ivory uppercase tracking-[0.24em] text-sm md:text-base font-body font-medium mb-6">
+                RAPPAHANNOCK COUNTY | VIRGINIA <MapPin className="ml-2 w-4 h-4 text-[#FFE0D2]" />
               </p>
             </motion.div>
 
+            {/* FIX P1: Reduced from delay={6} to delay={1.2} — headline appears promptly */}
+            {/* This is an h1 semantically wrapped in motion — added aria-label for screen readers */}
+            <h1 className="sr-only">A private sanctuary for living well.</h1>
             <SplitText 
-              delay={6}
+              delay={1.2}
               className="font-display text-[clamp(2.5rem,1.5rem+6vw,5.5rem)] text-ivory font-medium leading-[1.05] max-w-4xl"
             >
               A private sanctuary for living well.
             </SplitText>
 
+            {/* FIX P1: Reduced from delay={6.3} to delay={1.5} */}
             <SplitText 
-              delay={6.3}
+              delay={1.5}
               className="text-ivory font-body text-xl md:text-2xl max-w-2xl mt-6 leading-relaxed"
             >
               Where nature, Ayurveda, and modern medicine come together in the Blue Ridge foothills of Virginia.
@@ -233,13 +238,15 @@ function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 6.0 }}
+              // FIX P1: Reduced from delay={6.0} to delay={1.8}
+              transition={{ duration: 1, delay: 1.8 }}
               className="flex flex-col sm:flex-row gap-4 mt-10"
             >
+              {/* FIX P13: hover color unified to #C86D51 (was #C65A3A — different shade) */}
               <Button
                 href="/reserve"
                 variant="secondary"
-                className="text-ivory border-ivory/30 hover:bg-sage hover:border-sage hover:text-dark transition-all duration-300 pointer-events-auto"
+                className="text-ivory border-ivory/30 hover:bg-[#C86D51] hover:border-[#C86D51] hover:text-white transition-all duration-300 pointer-events-auto terracotta-btn-shadow"
               >
                 Reserve Your Stay
               </Button>

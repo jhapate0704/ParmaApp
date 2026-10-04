@@ -20,19 +20,19 @@ export function SectionHeading({
   className = ''
 }: SectionHeadingProps) {
   const alignClass = align === 'center' ? 'text-center mx-auto items-center' : 'text-left items-start'
-  const headingColor = dark ? 'text-ivory' : 'text-ivory'
-  const descColor = dark ? 'text-ivory/70' : 'text-muted'
+  const headingColor = 'text-ivory'
+  const descColor = 'text-ivory/85'
 
   return (
     <AnimatedReveal direction="up" className={`flex flex-col ${alignClass} ${className}`}>
       {eyebrow && <EyebrowLabel text={eyebrow} dark={dark} className="mb-4" />}
       
-      <h2 className={`font-display text-[clamp(2rem,1.5rem+2vw,3.5rem)] leading-[1.1] ${headingColor} mb-6`}>
+      <h2 className={`font-display text-[clamp(2rem,1.5rem+2vw,3.5rem)] leading-[1.1] ${headingColor} mb-6 drop-shadow-sm`}>
         {heading}
       </h2>
       
       {description && (
-        <p className={`font-body text-lg max-w-2xl ${descColor}`}>
+        <p className={`font-body text-lg max-w-2xl ${descColor} leading-relaxed`}>
           {description}
         </p>
       )}

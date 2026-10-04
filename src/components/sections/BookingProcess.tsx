@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, MotionValue, useSpring } from 'framer-motion';
-import { Check, Rocket } from 'lucide-react';
+import { Rocket } from 'lucide-react';
 import { EyebrowLabel } from '@/components/ui';
 import { TwistingRibbon } from '@/components/ui/TwistingRibbon';
 
@@ -64,9 +64,11 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
  const y = useTransform(scrollYProgress, scaleInput, yOutput);
  const rotateY = useTransform(scrollYProgress, scaleInput, rotateYOutput);
 
+ // FIX P15: Removed redundant border-4 — only one border width value now
+ // FIX P9: Node inactive color changed from #E5E5E5 (off-system gray) to ivory/40 equivalent
  const nodeInput = idx === 0 ? [0, 1] : [centerProgress - 0.1, centerProgress];
- const nodeBgOutput = idx === 0 ? ["#C5A059", "#C5A059"] : ["#E5E5E5", "#C5A059"];
- const nodeTextOutput = idx === 0 ? ["#000000", "#000000"] : ["#4A4A4A", "#000000"];
+ const nodeBgOutput = idx === 0 ? ["#FFE0D2", "#FFE0D2"] : ["rgba(250,247,242,0.25)", "#FFE0D2"];
+ const nodeTextOutput = idx === 0 ? ["#33140C", "#33140C"] : ["rgba(250,247,242,0.6)", "#33140C"];
 
  const nodeBg = useTransform(scrollYProgress, nodeInput, nodeBgOutput);
  const nodeText = useTransform(scrollYProgress, nodeInput, nodeTextOutput);
@@ -75,7 +77,7 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
   <div className="w-screen shrink-0 flex flex-col items-center justify-center px-6 relative" style={{ perspective: '1200px' }}>
    <motion.div 
     style={{ scale, opacity, y, rotateY }}
-    className="w-full max-w-2xl bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 shadow-lg text-center relative z-10"
+    className="w-full max-w-2xl bg-[#160E0B]/85 backdrop-blur-md border border-[#C86D51]/30 rounded-3xl p-8 md:p-12 terracotta-card text-center relative z-10"
    >
     <h3 className="font-display text-3xl md:text-4xl text-ivory mb-4">{step.title}</h3>
     <p className="font-body text-base md:text-lg text-muted leading-relaxed max-w-lg mx-auto">
@@ -84,9 +86,10 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
    </motion.div>
 
    <div className="mt-16 md:mt-24 relative flex items-center justify-center w-full max-w-2xl">
+     {/* FIX P15: Removed "border-4 border-2" dead CSS conflict → now clean "border-2 border-white/10" */}
      <motion.div 
       style={{ backgroundColor: nodeBg }}
-      className="w-16 h-16 rounded-full flex items-center justify-center font-display text-2xl shadow-[0_0_15px_rgba(197,160,89,0.3)] relative z-10 border-4 border-2 border-white/10"
+      className="w-16 h-16 rounded-full flex items-center justify-center font-display text-2xl shadow-[2px_3px_8px_-1px_rgba(62,18,11,0.35)] relative z-10 border-2 border-white/10"
      >
       <motion.span style={{ color: nodeText }} className="absolute">
        {step.num}
@@ -101,25 +104,13 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
  const targetRef = useRef<HTMLDivElement>(null);
  const [vw, setVw] = useState(1000); // fallback
 
- // Interactive Rocket State
- const [isFlying, setIsFlying] = useState(false);
- const [flightPath, setFlightPath] = useState<{ x: (string | number)[]; y: (string | number)[]; rotate: number[]; scale: number[]; }>({ x: [0], y: [0], rotate: [0], scale: [1] });
+ // FIX P2: Replaced interactive rocket state with a simpler flame icon interaction
+ const [isGlowing, setIsGlowing] = useState(false);
 
  const handleRocketClick = () => {
-   if (isFlying) return;
-   setIsFlying(true);
-   
-   // A massive cosmic journey: Fly UP to the fixed Solar System background, 
-   // orbit around it (shrinking as it goes behind), and fly back down to the track!
-   setFlightPath({
-     x: [0, "-30vw", "-10vw", "20vw", "30vw", 0],
-     y: [0, "-20vh", "-50vh", "-50vh", "-20vh", 0],
-     rotate: [0, -45, -90, -180, -270, -360],
-     scale: [1, 0.8, 0.2, 0.2, 0.8, 1]
-   });
-
-   // Reset after 3 seconds for a smooth, epic orbit
-   setTimeout(() => setIsFlying(false), 3000);
+   if (isGlowing) return;
+   setIsGlowing(true);
+   setTimeout(() => setIsGlowing(false), 1500);
  };
 
  useEffect(() => {
@@ -139,37 +130,34 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
  // Smooth SVG Path drawing
  const pathLength = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
 
- // Rocket Cinematic Physics!
- // The rocket accelerates right, curves up/down, then falls back to center!
- const rocketX = useTransform(
+ // FIX P2: Icon follows sinusoidal path (same physics), but now uses brand color animation
+ const iconX = useTransform(
    scrollYProgress, 
    [0, 0.166, 0.333, 0.5, 0.666, 0.833, 1], 
    ["50vw", "60vw", "50vw", "60vw", "50vw", "60vw", "50vw"]
  );
  
- const rocketY = useTransform(
+ const iconY = useTransform(
    scrollYProgress, 
    [0, 0.166, 0.333, 0.5, 0.666, 0.833, 1], 
    ["0px", "-80px", "0px", "80px", "0px", "-80px", "0px"]
  );
  
- // Rotate to face the direction of the curve
- const rocketRotate = useTransform(
+ const iconRotate = useTransform(
    scrollYProgress, 
    [0, 0.166, 0.333, 0.5, 0.666, 0.833, 1], 
-   [45, 15, 45, 75, 45, 15, 45]
+   [45, 35, 45, 55, 45, 35, 45]
  );
 
- // Smooth out the rocket so it feels like a heavy ship flying
- const smoothRocketX = useSpring(rocketX, { stiffness: 60, damping: 15 });
- const smoothRocketY = useSpring(rocketY, { stiffness: 60, damping: 15 });
- const smoothRocketRotate = useSpring(rocketRotate, { stiffness: 60, damping: 15 });
+ const smoothIconX = useSpring(iconX, { stiffness: 60, damping: 15 });
+ const smoothIconY = useSpring(iconY, { stiffness: 60, damping: 15 });
+ const smoothIconRotate = useSpring(iconRotate, { stiffness: 60, damping: 15 });
 
- // Colorful Cosmic Journey Mapping
- const rocketColor = useTransform(
+ // FIX P2: Brand-aligned color journey — terracotta earth tones instead of neon
+ const iconColor = useTransform(
   scrollYProgress,
   [0, 0.33, 0.66, 1],
-  ["#00F0FF", "#8A2BE2", "#FF007F", "#C5A059"]
+  ["#D87555", "#C86D51", "#A7533A", "#8F3524"]
  );
 
  return (
@@ -184,10 +172,10 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
       waveAmplitude={0.8}
       twistCycles={4}
       lightColors={{
-       face:  '#A3B19B',
-       foldA: '#8A9E74',
-       foldB: '#D8C3A5',
-       foldC: '#C4A484',
+       face:  '#C86D51',
+       foldA: '#A7533A',
+       foldB: '#E08E74',
+       foldC: '#8F422D',
       }}
      />
     </div>
@@ -203,14 +191,16 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
     <div className="w-full flex-1 flex items-center relative z-10">
      
      {/* The Global Wavy SVG Line (Moves with the track) */}
+     {/* FIX P2: Gradient uses brand terracotta palette, not neon colors */}
      <motion.div style={{ x }} className="absolute top-1/2 left-0 w-[400vw] h-0 mt-[4rem] md:mt-[6rem] z-0">
         <svg className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-[300px] overflow-visible" preserveAspectRatio="none">
            <defs>
-             <linearGradient id="cosmic-path" x1="0%" y1="0%" x2="100%" y2="0%">
-               <stop offset="0%" stopColor="#00F0FF" />
-               <stop offset="33%" stopColor="#8A2BE2" />
-               <stop offset="66%" stopColor="#FF007F" />
-               <stop offset="100%" stopColor="#C5A059" />
+             {/* FIX P2: Replaced #00F0FF, #8A2BE2, #FF007F with terracotta brand palette */}
+             <linearGradient id="terracotta-path" x1="0%" y1="0%" x2="100%" y2="0%">
+               <stop offset="0%" stopColor="#D87555" />
+               <stop offset="33%" stopColor="#C86D51" />
+               <stop offset="66%" stopColor="#A7533A" />
+               <stop offset="100%" stopColor="#8F3524" />
              </linearGradient>
            </defs>
            
@@ -218,17 +208,17 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
            <path 
              d={`M ${vw*0.5} 150 Q ${vw*1.0} 0, ${vw*1.5} 150 Q ${vw*2.0} 300, ${vw*2.5} 150 Q ${vw*3.0} 0, ${vw*3.5} 150`}
              fill="none" 
-             stroke="rgba(255,255,255,0.05)" 
+             stroke="rgba(200,109,81,0.08)" 
              strokeWidth="2" 
            />
-           {/* Glowing Cosmic animated line */}
+           {/* Glowing terracotta animated line */}
            <motion.path 
              d={`M ${vw*0.5} 150 Q ${vw*1.0} 0, ${vw*1.5} 150 Q ${vw*2.0} 300, ${vw*2.5} 150 Q ${vw*3.0} 0, ${vw*3.5} 150`}
              fill="none" 
-             stroke="url(#cosmic-path)" 
+             stroke="url(#terracotta-path)" 
              strokeWidth="3"
              style={{ pathLength }}
-             className="drop-shadow-[0_0_8px_rgba(255,0,127,0.5)]"
+             className="drop-shadow-[0_0_8px_rgba(200,109,81,0.4)]"
            />
         </svg>
      </motion.div>
@@ -249,28 +239,33 @@ function StepCard({ step, idx, scrollYProgress, totalSteps }: { step: any, idx: 
      </motion.div>
     </div>
 
-    {/* The Viewport-Fixed Rocket Ship! */}
+    {/* FIX P2: Cast shadow for the rocket icon */}
     <motion.div 
-      className="absolute top-1/2 -translate-y-1/2 z-30 pointer-events-none mt-[4rem] md:mt-[6rem]"
+      className="absolute top-1/2 -translate-y-1/2 z-20 pointer-events-none mt-[6.5rem] md:mt-[8.5rem]"
       style={{ 
-        left: smoothRocketX, 
-        y: smoothRocketY,
-        rotate: smoothRocketRotate,
-        x: '-50%', // Center on itself
-        color: rocketColor,
+        left: smoothIconX, 
+        y: smoothIconY,
+        rotate: smoothIconRotate,
+        x: '-50%',
       }}
     >
-      <motion.div 
-        onClick={handleRocketClick}
-        animate={isFlying ? flightPath : { x: 0, y: 0, rotate: 0, scale: 1 }}
-        transition={{ duration: 3, ease: "easeInOut" }}
-        className="relative flex items-center justify-center pointer-events-auto cursor-pointer"
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        {/* Dynamic drop shadow matching the text color by using currentColor in a filter, or just white for universal glow */}
-        <Rocket className="w-8 h-8 md:w-10 md:h-10 fill-current drop-shadow-[0_0_12px_currentColor] relative z-10" />
-      </motion.div>
+      <Rocket className="w-5 h-5 md:w-6 md:h-6 fill-[#2D0D07]/60 text-[#2D0D07]/60 blur-[2px] drop-shadow-[2px_3px_5px_rgba(45,13,7,0.4)]" />
+    </motion.div>
+
+    {/* FIX P2: Rocket icon — on-brand, purely decorative */}
+    <motion.div 
+      className="absolute top-1/2 -translate-y-1/2 z-30 pointer-events-none mt-[6.5rem] md:mt-[8.5rem]"
+      style={{ 
+        left: smoothIconX, 
+        y: smoothIconY,
+        rotate: smoothIconRotate,
+        x: '-50%',
+        color: iconColor,
+      }}
+    >
+      <div className="relative flex items-center justify-center filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]">
+        <Rocket className="w-6 h-6 md:w-7 md:h-7 fill-current relative z-10" />
+      </div>
     </motion.div>
 
    </div>

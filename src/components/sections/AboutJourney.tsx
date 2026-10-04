@@ -118,7 +118,17 @@ function ScatteredImage({ item, index, scrollYProgress, isNearby }: {
       className={`absolute flex items-center justify-center pointer-events-none ${!isNearby ? 'invisible' : ''}`}
     >
       <div className="relative flex flex-col md:flex-row items-center gap-6 p-6 rounded-2xl max-w-xl">
-        <div className="w-48 h-64 md:w-64 md:h-80 shrink-0 rounded-lg overflow-hidden relative">
+        {/* Physical Projected Cast Shadow (Top-Left light projecting to Bottom-Right onto Terracotta ground) */}
+        <div 
+          className="absolute inset-0 rounded-2xl pointer-events-none -z-10 transform translate-x-6 md:translate-x-12 translate-y-8 md:translate-y-16 skew-x-[-8deg] skew-y-[3deg] scale-[0.98]" 
+          style={{
+            background: "linear-gradient(135deg, rgba(42, 13, 7, 0.80) 0%, rgba(55, 17, 9, 0.55) 35%, rgba(74, 25, 14, 0.30) 70%, transparent 100%)",
+            filter: "blur(14px)",
+          }}
+          aria-hidden="true" 
+        />
+        
+        <div className="w-48 h-64 md:w-64 md:h-80 shrink-0 rounded-xl overflow-hidden relative shadow-[0_2px_4px_rgba(40,12,6,0.65),4px_8px_16px_-2px_rgba(48,15,8,0.55),12px_20px_36px_-4px_rgba(60,19,10,0.40),24px_38px_55px_-6px_rgba(74,25,14,0.25)]">
           {/* ── FIX 3: loading="lazy" — only decode image when card is near active ── */}
           <img
             src={item.src}
@@ -129,11 +139,11 @@ function ScatteredImage({ item, index, scrollYProgress, isNearby }: {
           />
         </div>
         <div className="flex flex-col text-left">
-          <h3 className="font-display text-2xl md:text-3xl text-[#C5A059] mb-4">{item.title}</h3>
+          <h3 className="font-display text-2xl md:text-3xl text-ivory drop-shadow-sm mb-4">{item.title}</h3>
           <ul className="space-y-3">
             {item.points.map((point: string, i: number) => (
-              <li key={i} className="flex items-start font-body text-sm text-ivory/80">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E8D3A2] mt-1.5 mr-3 shrink-0" />
+              <li key={i} className="flex items-start font-body text-sm text-ivory/95">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FFE0D2] mt-1.5 mr-3 shrink-0" />
                 {point}
               </li>
             ))}

@@ -9,18 +9,15 @@ import Philosophy from '@/components/sections/Philosophy';
 import WellnessJourney from '@/components/sections/WellnessJourney';
 import BookingProcess from '@/components/sections/BookingProcess';
 import AboutJourney from '@/components/sections/AboutJourney';
-import SolarSystem from '@/components/ui/SolarSystem';
-import { Preloader } from '@/components/ui/Preloader';
 
 export default function Home() {
   return (
     <>
-      <Preloader />
-      
-      {/* Global Interactive Background */}
-      <div className="fixed inset-0 z-[-10] w-full h-full pointer-events-auto">
-        <SolarSystem />
-      </div>
+      {/* Global Layered Terracotta Gradient Background */}
+      <div 
+        className="fixed inset-0 z-[-10] w-full h-full pointer-events-none terracotta-gradient-bg" 
+        aria-hidden="true"
+      />
 
       <section id="top">
         <Hero />

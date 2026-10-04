@@ -7,10 +7,8 @@ interface EyebrowLabelProps {
 }
 
 export function EyebrowLabel({ text, dark = false, className = '' }: EyebrowLabelProps) {
-  const colorClass = dark ? 'text-sage-light' : 'text-sage'
-  
   return (
-    <span className={`uppercase tracking-[0.2em] text-xs font-body font-semibold ${colorClass} ${className}`}>
+    <span className={`uppercase tracking-[0.24em] text-xs font-body font-semibold drop-shadow-sm ${dark ? 'text-charcoal' : 'text-[#FFE0D2]'} ${className}`}>
       {text}
     </span>
   )

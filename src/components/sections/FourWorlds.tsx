@@ -66,7 +66,7 @@ export default function FourWorlds() {
   if (isAnimating) return;
   const timer = setTimeout(() => {
    nextSlide();
-  }, 2500);
+  }, 4000);
   return () => clearTimeout(timer);
  }, [index, isAnimating]);
 
@@ -114,7 +114,18 @@ export default function FourWorlds() {
     </filter>
    </svg>
 
-   <div className="max-w-[1400px] mx-auto mt-16 relative h-[70vh] lg:h-[80vh] rounded-3xl overflow-hidden shadow-2xl bg-charcoal group">
+   <div className="max-w-[1400px] mx-auto mt-16 relative">
+    {/* Physical Projected Cast Shadow (Top-Left light projecting to Bottom-Right onto Terracotta ground) */}
+    <div 
+      className="absolute inset-0 rounded-3xl pointer-events-none -z-10 transform translate-x-8 md:translate-x-16 translate-y-10 md:translate-y-20 skew-x-[-8deg] skew-y-[3deg] scale-[0.98]"
+      style={{
+        background: "linear-gradient(135deg, rgba(42, 13, 7, 0.80) 0%, rgba(55, 17, 9, 0.60) 30%, rgba(74, 25, 14, 0.35) 65%, rgba(92, 32, 18, 0.10) 88%, transparent 100%)",
+        filter: "blur(18px)",
+      }}
+      aria-hidden="true" 
+    />
+
+    <div className="relative h-[70vh] lg:h-[80vh] rounded-3xl overflow-hidden shadow-[0_2px_4px_rgba(40,12,6,0.65),4px_8px_16px_-2px_rgba(48,15,8,0.55),12px_20px_36px_-4px_rgba(60,19,10,0.42),24px_40px_60px_-6px_rgba(74,25,14,0.28)] border border-white/10 bg-charcoal group">
     
     {/* Distorted Image Container - Clickable to advance slide */}
     <div 
@@ -137,14 +148,17 @@ export default function FourWorlds() {
     <div className="absolute inset-0 p-8 md:p-12 lg:p-16 flex flex-col justify-between pointer-events-none">
      
      {/* Top: Navigation Dots */}
+     {/* P24: Wrap each dot in a container with min 44px touch target */}
      <div className="flex items-center space-x-4 z-20 pointer-events-auto">
       {panels.map((p, i) => (
        <button
         key={p.id}
         onClick={() => goToSlide(i)}
-        className={`h-1.5 transition-all duration-300 rounded-full ${i === index ? 'w-16 bg-white' : 'w-6 bg-white/30 hover:bg-white/60'}`}
+        className="flex items-center justify-center min-w-[44px] min-h-[44px]"
         aria-label={`Go to slide ${i + 1}`}
-       />
+       >
+        <span className={`h-1.5 transition-all duration-300 rounded-full block ${i === index ? 'w-16 bg-white' : 'w-6 bg-white/30 hover:bg-white/60'}`} />
+       </button>
       ))}
      </div>
 
@@ -172,17 +186,18 @@ export default function FourWorlds() {
      </div>
     </div>
 
-    {/* Slider Controls (Hidden on very small screens, integrated into sides) */}
-    <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 flex justify-between z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+    {/* Slider Controls */}
+    {/* P20: Always visible on mobile (touch devices), hover-reveal only on desktop */}
+    <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 flex justify-between z-20 pointer-events-none opacity-60 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
       <button 
        onClick={prevSlide} 
-       className="pointer-events-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-ivory transition-all hover:scale-105"
+       className="pointer-events-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-dark transition-all hover:scale-105 shadow-[0_10px_25px_rgba(0,0,0,0.6)]"
       >
        <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
       </button>
       <button 
        onClick={nextSlide} 
-       className="pointer-events-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-ivory transition-all hover:scale-105"
+       className="pointer-events-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-dark transition-all hover:scale-105 shadow-[0_10px_25px_rgba(0,0,0,0.6)]"
       >
        <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
       </button>
@@ -201,7 +216,7 @@ export default function FourWorlds() {
         <Link 
          href={panels[index].link}
          onClick={(e) => handleRouteClick(e, panels[index].link)}
-         className="flex items-center bg-white/10 hover:bg-white/20 border border-white/30 rounded-3xl p-4 md:p-6 transition-all duration-300 group shadow-2xl"
+         className="flex items-center bg-white/10 hover:bg-white/20 border border-white/30 rounded-3xl p-4 md:p-6 transition-all duration-300 group shadow-[0_20px_45px_rgba(0,0,0,0.7)] backdrop-blur-md"
         >
          <div className="mr-4 md:mr-8">
           <span className="block text-white/70 font-body text-xs tracking-[0.2em] uppercase mb-1 drop-shadow-sm">Explore World</span>
@@ -216,6 +231,7 @@ export default function FourWorlds() {
     </div>
 
    </div>
+  </div>
   </section>
  );
 }

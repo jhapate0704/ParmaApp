@@ -41,9 +41,9 @@ export function AnimatedReveal({
       initial={{ opacity: 0, ...offset }}
       animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, ...offset }}
       transition={{
-        duration: 0.7,
+        duration: 1.2,
         delay,
-        ease: [0.25, 0.1, 0.25, 1]
+        ease: [0.16, 1, 0.3, 1]
       }}
       className={className}
     >

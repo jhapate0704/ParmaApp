@@ -28,10 +28,10 @@ export function Button({
   const baseStyles = 'inline-flex items-center justify-center uppercase tracking-[0.15em] font-medium font-body transition-colors duration-300'
   
   const variants = {
-    primary: 'bg-[#C5A059] text-[#0a0a0a] hover:bg-white',
-    secondary: 'bg-transparent border border-ivory/20 text-ivory hover:bg-white hover:text-[#0a0a0a]',
-    ghost: 'bg-transparent text-ivory hover:text-[#C5A059]',
-    dark: 'bg-white text-[#0a0a0a] hover:bg-[#C5A059]'
+    primary: 'bg-[#C86D51] text-ivory hover:bg-[#A7533A] terracotta-btn-shadow',
+    secondary: 'bg-transparent border border-ivory/20 text-ivory hover:bg-[#C86D51] hover:border-[#C86D51] hover:text-white terracotta-btn-shadow',
+    ghost: 'bg-transparent text-ivory hover:text-white',
+    dark: 'bg-white text-[#0a0a0a] hover:bg-[#C86D51] hover:text-white terracotta-btn-shadow'
   }
   
   const sizes = {
@@ -54,8 +54,8 @@ export function Button({
       <MotionLink href={href}
         
           className={combinedClassName}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
         >
           {innerContent}
         </MotionLink>
@@ -65,8 +65,8 @@ export function Button({
   return (
     <motion.button
       className={combinedClassName}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.96 }}
       {...(props as any)}
     >
       {innerContent}

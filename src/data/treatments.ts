@@ -1,4 +1,4 @@
-import { TreatmentCategory } from '@/types';
+import { TreatmentCategory } from '@/lib/types';
 
 export const treatmentCategories: TreatmentCategory[] = [
   {

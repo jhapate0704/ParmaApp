@@ -55,24 +55,24 @@ export default function FAQ() {
       return (
        <AnimatedReveal key={index} delay={index * 0.1}>
         <div
-         className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
+         className={`rounded-2xl overflow-hidden border transition-all duration-300 shadow-[2px_3px_8px_-1px_rgba(62,18,11,0.22)] ${
           isOpen
-           ? 'border-[#C5A059]/60 bg-white/5'
+           ? 'border-[#FFE0D2]/50 bg-white/5'
            : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/5'
          }`}
         >
          <button
           onClick={() => toggleFaq(index)}
-          className="w-full flex justify-between items-center p-6 lg:p-8 text-left focus:outline-none group"
+          className="w-full flex justify-between items-center p-6 lg:p-8 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86D51]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-t-2xl group"
          >
-          <span className={`font-display text-xl lg:text-2xl pr-8 transition-colors duration-300 ${isOpen ? 'text-[#C5A059]' : 'text-ivory group-hover:text-[#C5A059]'}`}>
+          <span className={`font-display text-xl lg:text-2xl pr-8 transition-colors duration-300 ${isOpen ? 'text-[#FFE0D2]' : 'text-ivory group-hover:text-white'}`}>
            {faq.question}
           </span>
           {/* Animated +/- icon with gold color */}
           <span className={`flex-shrink-0 w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
            isOpen
-            ? 'border-[#C5A059] text-[#C5A059] bg-[#C5A059]/10'
-            : 'border-white/20 text-ivory/50 group-hover:border-[#C5A059]/50 group-hover:text-[#C5A059]'
+            ? 'border-[#FFE0D2] text-[#FFE0D2] bg-[#FFE0D2]/15'
+            : 'border-white/20 text-ivory/50 group-hover:border-white/40 group-hover:text-white'
           }`}>
            <motion.div
             animate={{ rotate: isOpen ? 45 : 0 }}
@@ -92,7 +92,7 @@ export default function FAQ() {
             transition={{ duration: 0.35, ease: 'easeInOut' }}
            >
             {/* Gold left-border accent line on the answer */}
-            <div className="mx-6 lg:mx-8 mb-8 pt-2 border-l-2 border-[#C5A059]/40 pl-5">
+            <div className="mx-6 lg:mx-8 mb-8 pt-2 border-l-2 border-[#C86D51]/40 pl-5">
              <p className="font-body text-ivory/70 text-base lg:text-lg leading-relaxed">
               {faq.answer}
              </p>

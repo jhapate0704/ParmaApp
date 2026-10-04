@@ -1,4 +1,4 @@
-import { WellnessGoal } from '@/types';
+import { WellnessGoal } from '@/lib/types';
 
 export const wellnessGoals: WellnessGoal[] = [
   {

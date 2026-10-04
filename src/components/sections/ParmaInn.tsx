@@ -9,7 +9,7 @@ import { rooms } from '@/data/rooms';
 
 export function ParmaInn() {
  return (
-  <section className="py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-sand/30">
+  <section className="py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-transparent">
    <div className="max-w-7xl mx-auto">
     <AnimatedReveal>
      <SectionHeading
@@ -31,7 +31,7 @@ export function ParmaInn() {
         {/* Image Side - Animated from the side it appears */}
         <div className="w-full lg:w-1/2">
          <AnimatedReveal direction={isEven ? 'left' : 'right'} threshold={0.2}>
-          <div className="relative aspect-[4/3] w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-lg group">
+          <div className="relative aspect-[4/3] w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-[0_2px_4px_rgba(40,12,6,0.65),4px_8px_16px_-2px_rgba(48,15,8,0.55),12px_20px_36px_-4px_rgba(60,19,10,0.40),24px_38px_55px_-6px_rgba(74,25,14,0.25)] group">
            <ImageCarousel images={room.gallery || [room.image]} alt={room.name} />
           </div>
          </AnimatedReveal>
@@ -40,19 +40,19 @@ export function ParmaInn() {
         {/* Info Side - Animated from the opposite side */}
         <div className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left">
          <AnimatedReveal direction={isEven ? 'right' : 'left'} delay={0.2} threshold={0.2}>
-          <span className="text-xs text-sage tracking-wider uppercase font-body font-semibold mb-3 block">
+          <span className="text-xs text-[#FFE0D2] tracking-wider uppercase font-body font-semibold mb-3 block">
            Room 0{index + 1}
           </span>
           <h3 className="font-display text-3xl lg:text-4xl text-ivory mb-4">
            {room.name}
           </h3>
           {room.subtitle && (
-           <p className="font-body text-ivory text-lg mb-6">
+           <p className="font-body text-ivory/90 text-lg mb-6">
             {room.subtitle}
            </p>
           )}
           
-          <p className="font-body text-lg text-ivory leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
+          <p className="font-body text-lg text-ivory/85 leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
            {room.description}
           </p>
 
@@ -60,8 +60,8 @@ export function ParmaInn() {
            <div className="mb-10 max-w-xl mx-auto lg:mx-0">
             <ul className="grid grid-cols-2 gap-y-3 gap-x-4">
              {room.features.map((feature: string, idx: number) => (
-              <li key={idx} className="flex items-center text-sm text-ivory font-body justify-center lg:justify-start">
-               <span className="w-1.5 h-1.5 rounded-full bg-forest mr-3 shrink-0" />
+              <li key={idx} className="flex items-center text-sm text-ivory/90 font-body justify-center lg:justify-start">
+               <span className="w-1.5 h-1.5 rounded-full bg-[#FFE0D2] mr-3 shrink-0" />
                {feature}
               </li>
              ))}
@@ -70,7 +70,7 @@ export function ParmaInn() {
           )}
           
           <div className="flex justify-center lg:justify-start">
-           <Button href="/reserve?service=stay" variant="secondary" className="px-8 border-ivory/20 hover:!bg-sage hover:!border-sage hover:!text-white transition-all duration-300">
+           <Button href="/reserve?service=stay" variant="secondary" className="px-8 border-ivory/20 hover:!bg-[#C65A3A] hover:!border-[#C65A3A] hover:!text-white transition-all duration-300 terracotta-btn-shadow">
             Reserve Room
            </Button>
           </div>

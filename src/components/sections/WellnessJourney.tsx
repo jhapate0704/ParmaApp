@@ -64,7 +64,7 @@ export function WellnessJourney({ onReserveClick }: WellnessJourneyProps) {
  };
 
  return (
-  <section className="py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-dark/40">
+  <section className="py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-dark/40">
    <div className="max-w-7xl mx-auto">
     <AnimatedReveal>
      <SectionHeading eyebrow="WELLNESS JOURNEYS" heading="What brings you here?" description="A journey tailored to your specific intentions." />
@@ -80,8 +80,8 @@ export function WellnessJourney({ onReserveClick }: WellnessJourneyProps) {
          onClick={() => handleGoalClick(goal)}
          className={`text-left px-6 py-4 rounded-full border transition-all duration-300 font-body uppercase tracking-wider text-sm ${
           selectedGoal.id === goal.id
-           ? 'bg-[#C5A059] text-dark border-[#C5A059]'
-           : 'border-white/10 hover:border-[#C5A059] text-ivory bg-white/5'
+           ? 'bg-[#C86D51] text-dark border-[#C86D51] shadow-[2px_3px_8px_-1px_rgba(62,18,11,0.32),4px_6px_14px_-2px_rgba(72,25,17,0.22)]'
+           : 'border-white/10 hover:border-[#C86D51] text-ivory bg-white/5 hover:shadow-[2px_3px_8px_-1px_rgba(62,18,11,0.25)]'
          }`}
         >
          <span className="font-medium">{goal.label}</span>
@@ -99,7 +99,7 @@ export function WellnessJourney({ onReserveClick }: WellnessJourneyProps) {
         initial="hidden"
         animate="show"
         exit="exit"
-        className="bg-dark/40 p-8 lg:p-12 rounded-3xl"
+        className="bg-[#160E0B]/85 backdrop-blur-md p-8 lg:p-12 rounded-3xl border border-[#C86D51]/30 shadow-[0_2px_4px_rgba(40,12,6,0.55),4px_8px_18px_-2px_rgba(48,15,8,0.45),14px_24px_45px_-4px_rgba(60,19,10,0.30)]"
        >
         <motion.h3 variants={itemVariants} className="font-display text-2xl lg:text-3xl text-ivory mb-4">
          {selectedGoal.label}
@@ -109,16 +109,16 @@ export function WellnessJourney({ onReserveClick }: WellnessJourneyProps) {
          {selectedGoal.description}
         </motion.p>
 
-        <div className="space-y-8 relative before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[#C5A059]/30 before:to-transparent">
+        <div className="space-y-8 relative before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[#C86D51]/50 before:to-transparent">
          {selectedGoal.journey.map((step: any, index: number) => (
-          <motion.div variants={itemVariants} key={index} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+          <motion.div variants={itemVariants} key={index} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
            {/* Step Number Circle */}
-           <div className="flex items-center justify-center w-10 h-10 rounded-full border border-ivory bg-[#C5A059] text-dark shadow-[0_0_10px_rgba(197,160,89,0.3)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+           <div className="flex items-center justify-center w-10 h-10 rounded-full border border-ivory/80 bg-[#FFE0D2] text-[#33140C] shadow-[0_2px_8px_rgba(40,12,6,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
             <span className="text-sm font-body font-semibold">{index + 1}</span>
            </div>
            
            {/* Step Content Card */}
-           <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-xl border border-ivory/5 shadow-sm bg-dark/40">
+           <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-xl border border-ivory/5 shadow-[0_2px_4px_rgba(40,12,6,0.6),3px_6px_14px_-2px_rgba(50,16,8,0.45)] bg-[#1C120E]/80">
             <div className="flex items-center justify-between space-x-2 mb-2">
              <div className="font-display text-xl text-ivory">{step.step}</div>
             </div>

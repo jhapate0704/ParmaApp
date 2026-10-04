@@ -79,7 +79,7 @@ export default function Healthcare() {
  };
 
  return (
-  <div className="bg-dark/40 backdrop-blur-lg py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16" >
+  <div className="bg-transparent py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16" >
    <SectionHeading
     eyebrow="Parma Healthcare"
     heading="Healthcare, reimagined."
@@ -95,8 +95,8 @@ export default function Healthcare() {
       className={cn(
        "px-5 py-2.5 rounded-full text-xs uppercase tracking-[0.15em] font-body font-medium transition-all duration-300",
        activeTab === item.id
-        ? "bg-sage text-ivory shadow-md scale-105"
-        : "bg-dark/40 backdrop-blur-lg text-muted hover:text-ivory border border-ivory/10 hover:border-sage hover:bg-white"
+        ? "bg-[#C65A3A] text-white border border-[#FFE0D2]/40 shadow-[0_4px_14px_rgba(198,90,58,0.45)] scale-105 terracotta-btn-shadow"
+        : "bg-black/40 text-ivory/80 hover:text-white hover:bg-black/60 backdrop-blur-lg border border-white/10"
       )}
      >
       {item.title}
@@ -114,7 +114,7 @@ export default function Healthcare() {
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-center"
      >
-      <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg w-full">
+      <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_2px_4px_rgba(40,12,6,0.65),4px_8px_16px_-2px_rgba(48,15,8,0.55),12px_20px_36px_-4px_rgba(60,19,10,0.40),24px_38px_55px_-6px_rgba(74,25,14,0.25)] w-full">
        <Image
         src={activeItem.image}
         alt={activeItem.title}
@@ -128,21 +128,21 @@ export default function Healthcare() {
        <h3 className="font-display text-4xl text-ivory mb-4">
         {activeItem.title}
        </h3>
-       <p className="font-body text-muted text-lg leading-relaxed mb-10">
+       <p className="font-body text-ivory/85 text-lg leading-relaxed mb-10">
         {activeItem.description}
        </p>
        
        <div className="space-y-6">
         {activeItem.details.map((detail, idx) => (
-         <div key={idx} className="flex justify-between items-end border-b border-ivory/10 pb-4 group cursor-pointer hover:border-sage transition-colors">
-          <span className="font-display text-xl text-ivory group-hover:text-sage transition-colors">{detail.name}</span>
-          <span className="font-body text-xs uppercase tracking-widest text-muted">{detail.duration}</span>
+         <div key={idx} className="flex justify-between items-end border-b border-ivory/10 pb-4 group cursor-pointer hover:border-[#C65A3A]/60 transition-colors">
+          <span className="font-display text-xl text-ivory group-hover:text-[#FFE0D2] transition-colors">{detail.name}</span>
+          <span className="font-body text-xs uppercase tracking-widest text-[#FFE0D2] font-semibold">{detail.duration}</span>
          </div>
         ))}
        </div>
        
        <div className="mt-10">
-        <Button href="/reserve?service=healthcare" variant="secondary" className="hover:!bg-sage hover:!border-sage hover:!text-white transition-all duration-300">
+        <Button href="/reserve?service=healthcare" variant="secondary" className="px-8 border-ivory/20 hover:!bg-[#C65A3A] hover:!border-[#C65A3A] hover:!text-white transition-all duration-300 terracotta-btn-shadow">
          Reserve Consultation
         </Button>
        </div>

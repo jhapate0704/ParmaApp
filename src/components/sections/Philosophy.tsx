@@ -41,10 +41,10 @@ export function Philosophy() {
             waveAmplitude={0.8}
             twistCycles={4}
             lightColors={{
-              face:  '#A3B19B',
-              foldA: '#8A9E74',
-              foldB: '#D8C3A5',
-              foldC: '#C4A484',
+              face:  '#C86D51',
+              foldA: '#A7533A',
+              foldB: '#E08E74',
+              foldC: '#8F422D',
             }}
           />
         </div>
@@ -59,7 +59,7 @@ export function Philosophy() {
           initial={{ opacity: 0, filter: "blur(15px)", y: 40, scale: 0.95 }}
           whileInView={{ opacity: 1, filter: "blur(0px)", y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-15%" }}
-          transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 flex flex-col items-center"
         >
         <EyebrowLabel text="The Parma Philosophy" />
@@ -70,7 +70,7 @@ export function Philosophy() {
           the shadow on the parent wrapper. This casts a large, soft ambient shadow behind the 
           entire quote block, separating the text visually from the twisting ribbon behind it.
         */}
-        <blockquote className="mt-8 font-display text-3xl lg:text-5xl max-w-4xl mx-auto leading-tight text-ivory drop-shadow-xl">
+        <blockquote className="mt-8 font-display text-3xl md:text-4xl lg:text-5xl max-w-4xl mx-auto leading-tight text-ivory drop-shadow-xl">
           <FlipText delay={6} duration={5}>
             Wellness is not something you add to life. It is how you choose to live it.
           </FlipText>

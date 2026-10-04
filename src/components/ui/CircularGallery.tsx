@@ -302,32 +302,45 @@ export function CircularGallery({
         </div>
       )}
 
-      {/* Centre preview — shows on hover AND tap */}
+      {/* Centre preview — shows on hover AND tap with dynamic following shadow */}
       {showPreview && defaultPreview ? (
         <div
           ref={previewWrapRef}
-          className="absolute left-1/2 top-[52%] md:top-1/2 z-20 h-[220px] w-[88vw] sm:h-[260px] sm:w-[360px] md:h-[320px] md:w-[480px] max-w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl opacity-0 shadow-[0_0_50px_rgba(197,160,89,0.35),0_20px_50px_rgba(0,0,0,0.9)] border border-[#C5A059]/40 pointer-events-none transition-transform duration-300"
+          className="absolute left-1/2 top-[52%] md:top-1/2 z-20 h-[220px] w-[88vw] sm:h-[260px] sm:w-[360px] md:h-[320px] md:w-[480px] max-w-[90%] -translate-x-1/2 -translate-y-1/2 opacity-0 pointer-events-none transition-transform duration-300"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img ref={previewRef} src={defaultPreview} alt="" className="h-full w-full object-cover" />
-          
-          {/* Soft gradient vignette */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-
-          {/* Close hint button on mobile/touch */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              hidePreviewImage();
+          {/* Physical Projected Cast Shadow (Top-Left light projecting to Bottom-Right onto Terracotta ground) */}
+          <div 
+            className="absolute inset-0 rounded-2xl pointer-events-none -z-10 transform translate-x-8 md:translate-x-14 translate-y-10 md:translate-y-18 skew-x-[-8deg] skew-y-[3deg] scale-[0.98]"
+            style={{
+              background: "linear-gradient(135deg, rgba(42, 13, 7, 0.85) 0%, rgba(55, 17, 9, 0.65) 35%, rgba(74, 25, 14, 0.38) 65%, rgba(92, 32, 18, 0.12) 88%, transparent 100%)",
+              filter: "blur(14px)",
             }}
-            className="md:hidden absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/80 border border-[#C5A059]/40 text-[10px] uppercase tracking-widest text-[#C5A059] font-body pointer-events-auto"
-          >
-            <span>Close</span>
-            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+            aria-hidden="true" 
+          />
+
+          {/* Preview Image Card */}
+          <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_2px_4px_rgba(40,12,6,0.65),4px_8px_16px_-2px_rgba(48,15,8,0.55),12px_20px_36px_-4px_rgba(60,19,10,0.42),24px_40px_60px_-6px_rgba(74,25,14,0.28)] border border-[#C86D51]/40">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img ref={previewRef} src={defaultPreview} alt="" className="h-full w-full object-cover" />
+            
+            {/* Soft gradient vignette */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+
+            {/* Close hint button on mobile/touch */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                hidePreviewImage();
+              }}
+              className="md:hidden absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/80 border border-[#C86D51]/40 text-[10px] uppercase tracking-widest text-[#C86D51] font-body pointer-events-auto"
+            >
+              <span>Close</span>
+              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
       ) : null}
 
@@ -351,7 +364,7 @@ export function CircularGallery({
                 e.stopPropagation();
                 if (src) showPreviewImage(src);
               }}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[3px] bg-neutral-900 shadow-md shadow-black/20 ring-1 ring-white/20 [transform-style:preserve-3d] cursor-pointer group"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[3px] bg-neutral-900 shadow-[0_1px_2px_rgba(40,12,6,0.6),2px_4px_10px_-1px_rgba(50,16,8,0.5),5px_10px_20px_-2px_rgba(65,22,12,0.35)] group-hover:shadow-[0_2px_4px_rgba(40,12,6,0.5),4px_8px_16px_-1px_rgba(50,16,8,0.55),10px_18px_30px_-3px_rgba(65,22,12,0.40)] ring-1 ring-white/20 [transform-style:preserve-3d] cursor-pointer group transition-shadow duration-300"
               style={{ width: itemWidth, height: itemHeight, margin: 10, willChange: 'transform' }}
             >
               {src ? (
@@ -359,7 +372,7 @@ export function CircularGallery({
                 <img
                   src={src}
                   alt=""
-                  className="h-full w-full object-cover rounded-[3px] pointer-events-none transition-[transform,filter] duration-300 group-hover:scale-110 group-hover:brightness-110"
+                  className="h-full w-full object-cover rounded-[3px] pointer-events-none transition-[transform,filter] duration-300 group-hover:scale-110 group-hover:brightness-110 drop-shadow-[2px_4px_8px_rgba(45,14,7,0.6)]"
                 />
               ) : null}
             </div>

@@ -10,9 +10,23 @@ const services = [
   { id: '04', title: 'MEDITATION', image: 'https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=1600&q=80' },
 ];
 
+// Module-level flag in client memory
+// Resets to false whenever the browser reloads or user enters site fresh
+// Stays true across client-side page transitions (SPA navigation)
+let hasShownPreloader = false;
+
 export function Preloader() {
-  const [stage, setStage] = useState<'logo' | 'services' | 'done'>('logo');
+  const [stage, setStage] = useState<'logo' | 'services' | 'done'>(() => {
+    return hasShownPreloader ? 'done' : 'logo';
+  });
   const [serviceIndex, setServiceIndex] = useState(0);
+
+  // If already shown in this browser session, immediately mark done
+  useEffect(() => {
+    if (hasShownPreloader) {
+      setStage('done');
+    }
+  }, []);
 
   // Lock body scroll while preloader is active
   useEffect(() => {
@@ -20,6 +34,7 @@ export function Preloader() {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+      hasShownPreloader = true;
     }
     return () => {
       document.body.style.overflow = '';
@@ -28,26 +43,31 @@ export function Preloader() {
 
   // Stage 1: Logo display
   useEffect(() => {
+    if (hasShownPreloader || stage === 'done') return;
     const logoTimer = setTimeout(() => {
       setStage('services');
-    }, 1800); // Show logo for 1.8 seconds
+    }, 1200); // Show logo for 1.2 seconds (reduced from 1.8s)
     return () => clearTimeout(logoTimer);
-  }, []);
+  }, [stage]);
 
   // Stage 2: Cycle through services
   useEffect(() => {
+    if (hasShownPreloader || stage === 'done') return;
     if (stage === 'services') {
       const interval = setInterval(() => {
         setServiceIndex((prev) => {
           if (prev >= services.length - 1) {
             clearInterval(interval);
             // Wait slightly on the last image before finishing
-            setTimeout(() => setStage('done'), 600);
+            setTimeout(() => {
+              setStage('done');
+              hasShownPreloader = true;
+            }, 400); // Reduced from 600ms
             return prev;
           }
           return prev + 1;
         });
-      }, 600); // 0.6 seconds per image
+      }, 400); // 0.4 seconds per image (reduced from 600ms)
       return () => clearInterval(interval);
     }
   }, [stage]);

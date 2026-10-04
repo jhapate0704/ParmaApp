@@ -66,9 +66,9 @@ export function Spa() {
  };
 
  return (
-  <section className="bg-dark/40 backdrop-blur-lg py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 overflow-hidden">
+  <section className="bg-transparent py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 overflow-hidden">
    <SectionHeading
-    eyebrow="Parma Spa &middot; Tysons Corner"
+    eyebrow="Parma Spa · Tysons Corner"
     heading="Restore your rhythm."
     description="Rooted in the 5,000-year-old wisdom of Ayurveda, our therapies are designed to realign your body and spirit."
     align="center"
@@ -86,8 +86,8 @@ export function Spa() {
         className={cn(
          "px-8 py-3 rounded-full text-sm uppercase tracking-[0.15em] font-body font-medium transition-all duration-300",
          isActive
-          ? "bg-sage text-ivory"
-          : "bg-dark/50 text-muted hover:text-ivory hover:bg-dark/40 backdrop-blur-lg border border-ivory/10"
+          ? "bg-[#C65A3A] text-white border border-[#FFE0D2]/40 shadow-[0_4px_14px_rgba(198,90,58,0.45)] scale-105 terracotta-btn-shadow"
+          : "bg-black/40 text-ivory/80 hover:text-white hover:bg-black/60 backdrop-blur-lg border border-white/10"
         )}
        >
         {category.label}
@@ -109,14 +109,14 @@ export function Spa() {
       >
        {/* Left: Two Images Stacked Vertically */}
        <div className="w-full flex flex-col gap-6 lg:gap-8">
-        <motion.div variants={itemVariants} className="relative aspect-[4/3] w-full rounded-xl overflow-hidden shadow-sm">
+        <motion.div variants={itemVariants} className="relative aspect-[4/3] w-full rounded-xl overflow-hidden shadow-[0_2px_4px_rgba(40,12,6,0.65),4px_8px_16px_-2px_rgba(48,15,8,0.55),12px_20px_36px_-4px_rgba(60,19,10,0.40),24px_38px_55px_-6px_rgba(74,25,14,0.25)]">
          <img 
           src={topImage} 
           alt="Spa Detail 1"
           className="w-full h-full object-cover"
          />
         </motion.div>
-        <motion.div variants={itemVariants} className="relative aspect-[4/3] w-full rounded-xl overflow-hidden shadow-sm">
+        <motion.div variants={itemVariants} className="relative aspect-[4/3] w-full rounded-xl overflow-hidden shadow-[0_2px_4px_rgba(40,12,6,0.65),4px_8px_16px_-2px_rgba(48,15,8,0.55),12px_20px_36px_-4px_rgba(60,19,10,0.40),24px_38px_55px_-6px_rgba(74,25,14,0.25)]">
          <img 
           src={bottomImage} 
           alt="Spa Detail 2"
@@ -132,23 +132,23 @@ export function Spa() {
           <motion.div 
            key={idx}
            variants={itemVariants}
-           className="group border-b border-ivory/10 py-6 last:border-0 hover:bg-dark/50 transition-colors duration-300 rounded-lg px-4 -mx-4 cursor-pointer"
+           className="group border-b border-ivory/10 py-6 last:border-0 hover:bg-black/30 transition-colors duration-300 rounded-lg px-4 -mx-4 cursor-pointer"
           >
            <div className="flex justify-between items-baseline mb-2">
-            <h4 className="font-display text-xl text-ivory group-hover:text-sage transition-colors duration-300">
+            <h4 className="font-display text-xl text-ivory group-hover:text-[#FFE0D2] transition-colors duration-300">
              {treatment.name}
             </h4>
-            <span className="text-xs text-sage uppercase tracking-wider font-body font-medium whitespace-nowrap ml-4">
+            <span className="text-xs text-[#FFE0D2] uppercase tracking-wider font-body font-semibold whitespace-nowrap ml-4">
              {treatment.duration}
             </span>
            </div>
            
-           <p className="text-muted font-body text-sm leading-relaxed mb-4">
+           <p className="text-ivory/85 font-body text-sm leading-relaxed mb-4">
             {treatment.description}
            </p>
            
            <div className="overflow-hidden">
-            <span className="text-xs text-ivory uppercase tracking-wider font-medium font-body inline-flex items-center transform -translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+            <span className="text-xs text-[#FFE0D2] uppercase tracking-wider font-medium font-body inline-flex items-center transform -translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
              Explore Treatment 
              <span className="ml-1">&rarr;</span>
             </span>

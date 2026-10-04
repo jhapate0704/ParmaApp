@@ -1,11 +1,11 @@
-import { NavItem } from "@/types";
+import { NavItem } from "@/lib/types";
 
 export const navigationData: NavItem[] = [
+  { label: 'Home', href: '/' },
   { label: 'About', href: '/#about' },
   { label: 'Sanctuary', href: '/#worlds' },
   { label: 'Gallery', href: '/#gallery' },
   { label: 'Team', href: '/#team' },
-  { label: 'Contact Us', href: '#footer' },
   { 
     label: 'Experiences', 
     dropdown: [

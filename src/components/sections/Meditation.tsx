@@ -51,7 +51,7 @@ const meditationData = [
 
 export default function Meditation() {
  return (
-  <section className="py-16 md:py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-dark/40 backdrop-blur-lg text-ivory">
+  <section className="py-16 md:py-24 lg:py-32 px-5 md:px-8 lg:px-16 bg-transparent text-ivory">
    <div className="max-w-7xl mx-auto">
     <AnimatedReveal>
      <SectionHeading
@@ -74,7 +74,7 @@ export default function Meditation() {
         {/* Image Side */}
         <div className="w-full lg:w-1/2">
          <AnimatedReveal direction={isEven ? 'left' : 'right'} threshold={0.2}>
-          <div className="relative aspect-[4/3] w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-2xl group">
+          <div className="relative aspect-[4/3] w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-[0_2px_4px_rgba(40,12,6,0.65),4px_8px_16px_-2px_rgba(48,15,8,0.55),12px_20px_36px_-4px_rgba(60,19,10,0.40),24px_38px_55px_-6px_rgba(74,25,14,0.25)] group">
            <ImageCarousel images={item.gallery} alt={item.name} />
           </div>
          </AnimatedReveal>
@@ -84,17 +84,17 @@ export default function Meditation() {
         <div className="w-full lg:w-1/2 flex flex-col justify-center">
          <AnimatedReveal direction={isEven ? 'right' : 'left'} delay={0.2}>
           <div className="max-w-md">
-           <span className="text-sage text-xs uppercase tracking-[0.2em] font-body mb-4 block">
+           <span className="text-[#FFE0D2] text-xs uppercase tracking-wider font-body font-semibold mb-4 block">
             Practice 0{index + 1}
            </span>
            <h3 className="font-display text-4xl lg:text-5xl text-ivory mb-6 leading-tight">
             {item.name}
            </h3>
-           <p className="font-body text-muted text-lg leading-relaxed mb-8">
+           <p className="font-body text-ivory/85 text-lg leading-relaxed mb-8">
             {item.description}
            </p>
            
-           <Button variant="dark" className="border border-white/20 hover:border-sage">
+           <Button href="/reserve?service=meditation" variant="secondary" className="px-8 border-ivory/20 hover:bg-[#C86D51] hover:border-[#C86D51] hover:text-white transition-all duration-300 terracotta-btn-shadow">
             Explore {item.name}
            </Button>
           </div>

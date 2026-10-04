@@ -3,21 +3,35 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Button } from '@/components/ui/Button'
 import { navigationData } from '@/data/navigation'
 import { MobileMenu } from './MobileMenu'
+
+// Curated on-brand hover palette — replaces the off-brand random HSL rainbow
+const BRAND_HOVER_COLORS = [
+  '#FFE0D2', // Peach accent
+  '#E08E74', // Light ember
+  '#FAF7F2', // Ivory
+  '#D87555', // Light terracotta
+  '#F0ECE4', // Stone
+  '#C86D51', // Primary terracotta
+];
 
 const HoverLetter = ({ char }: { char: string }) => {
   const [color, setColor] = useState<string | undefined>(undefined);
   
   return (
     <motion.span
-      onHoverStart={() => setColor(`hsl(${Math.floor(Math.random() * 360)}, 80%, 75%)`)}
+      onHoverStart={() =>
+        setColor(BRAND_HOVER_COLORS[Math.floor(Math.random() * BRAND_HOVER_COLORS.length)])
+      }
       onHoverEnd={() => setColor(undefined)}
       animate={{ color: color || "currentColor" }}
+      // FIX P28: Use font-semibold equivalent weight here; letter hover keeps scale but 
+      // we don't change font-weight so no layout shift
       whileHover={{ scale: 1.2, zIndex: 10, y: -2 }}
-      transition={{ duration: 0.05 }}
+      transition={{ duration: 0.1 }}
       className="inline-block transform-gpu cursor-default"
     >
       {char}
@@ -39,9 +53,6 @@ export function Header() {
   // STATE MANAGEMENT
   // =========================================
   
-  // Tracks if the user has scrolled down past 50px. Used to trigger the dark glass pill styling.
-  const [scrolled, setScrolled] = useState(false)
-  
   // Tracks if the mobile hamburger menu drawer is open or closed. For mobile users only.
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -49,19 +60,17 @@ export function Header() {
   // Used to highlight the "active" link in the navigation menu automatically.
   const [activeSection, setActiveSection] = useState<string>('');
 
+  // FIX P3: Tracks whether the user has scrolled past the hero (80px threshold)
+  // Used to apply the frosted glass state to the header for legibility.
+  const [scrolled, setScrolled] = useState(false);
+
   // =========================================
-  // EFFECT: Scroll Listener & Scroll Spy Logic
-  // Who is this for? The browser window. It continuously monitors where the user is looking.
+  // EFFECT: Scroll Listener, Scroll Spy Logic, and Frosted Glass State
   // =========================================
   useEffect(() => {
     const handleScroll = () => {
-      // Trigger the 'scrolled' visual state when the user reaches the #about section
-      const aboutSection = document.getElementById('about');
-      if (aboutSection) {
-        setScrolled(window.scrollY >= aboutSection.offsetTop - 100);
-      } else {
-        setScrolled(window.scrollY > 50);
-      }
+      // FIX P3: Frosted glass threshold
+      setScrolled(window.scrollY > 80);
 
       // Scroll Spy: Array of section IDs that exist on the homepage
       const sections = ['about', 'worlds', 'gallery', 'team', 'footer', 'inn', 'spa', 'health', 'meditation'];
@@ -79,7 +88,7 @@ export function Header() {
           }
         }
       }
-      setActiveSection(current); // Update the state so the nav links can re-render their active styles
+      setActiveSection(current);
     }
     
     // Attach the scroll listener when the component mounts
@@ -91,8 +100,7 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Main header styling logic: perfectly static size, no shrinking on scroll.
-  const headerClass = `fixed top-0 left-0 right-0 w-full z-40 transition-colors duration-500 ease-out bg-transparent text-ivory py-6`
+  const headerClass = `fixed top-0 left-0 right-0 w-full z-40 transition-all duration-500 ease-out bg-transparent text-ivory py-6`
 
   if (isReserve) return null;
 
@@ -106,9 +114,17 @@ export function Header() {
               LEFT SECTION: LOGO & BRANDING
               Who is this for? All users (Mobile & Desktop). Acts as a visual home button.
               ========================================= */}
-          <Link href="/" className="flex items-center space-x-0 group">
-            {/* The crest size remains completely static so the header doesn't jump or shrink */}
-            <img src="/icon.png" alt="Parma Crest" className="shrink-0 object-contain h-16 w-16 md:h-20 md:w-20 drop-shadow-[0_2px_12px_rgba(197,160,89,0.3)]" />
+          {/* FIX P27: space-x-0 → space-x-3 so crest and wordmark have breathing room */}
+          <Link href="/" className="flex items-center space-x-3 group">
+            {/* FIX P8: Replaced raw <img> with next/image for optimization + explicit size */}
+            <Image
+              src="/icon.png"
+              alt="Parma Crest"
+              width={64}
+              height={64}
+              className="shrink-0 object-contain drop-shadow-[0_2px_12px_rgba(197,160,89,0.3)] md:w-20 md:h-20"
+              priority
+            />
             <div className="flex flex-col">
               <span className="font-display text-2xl tracking-wide uppercase flex">
                 {"Parma".split("").map((char, i) => (
@@ -122,53 +138,48 @@ export function Header() {
               CENTER SECTION: DESKTOP NAVIGATION PILL
               Who is this for? Desktop and Large Tablet users only (hidden on lg and below).
               ========================================= */}
-          <nav className={`hidden lg:flex relative rounded-full p-1 items-center border transition-all duration-300 backdrop-blur-md ${
-            scrolled ? 'bg-black/70 border-white/10 shadow-sm backdrop-blur-xl' : 'bg-white/10 border-white/20'
-          }`}>
+          <nav className="hidden lg:flex relative rounded-full p-1 px-3 items-center border border-white/20 bg-white/10 backdrop-blur-md transition-all duration-300">
             {/* Dynamically render all navigation links from the data file */}
             {navigationData.map((item: any) => {
               
               // Determine if THIS specific link is active by checking the URL or Scroll Spy state
-              const isActive = item.dropdown 
-                ? item.dropdown.some((sub: any) => sub.href.includes(activeSection) && activeSection !== '')
-                : item.href?.includes(activeSection) && activeSection !== '';
+              let isActive = false;
+              if (item.href === '/') {
+                isActive = activeSection === '' && pathname === '/';
+              } else {
+                isActive = item.dropdown 
+                  ? item.dropdown.some((sub: any) => sub.href.includes(activeSection) && activeSection !== '')
+                  : item.href?.includes(activeSection) && activeSection !== '';
+              }
 
               return item.dropdown ? (
                 // DROPDOWN MENU WRAPPER
-                // Who is this for? Desktop users hovering over a link that contains sub-pages.
                 <div key={item.label} className="relative group hover:scale-[1.05] transition-transform duration-300">
                   
                   {/* Dropdown Trigger Button */}
-                  <div className={`relative px-6 py-2 rounded-full cursor-pointer z-10 flex items-center gap-1 transition-all duration-300 ${
-                    scrolled ? 'group-hover:bg-white/10' : 'group-hover:bg-white/20'
-                  }`}>
+                  <div className="relative px-6 py-2 rounded-full cursor-pointer z-10 flex items-center gap-1 transition-all duration-300 group-hover:bg-white/20">
                     
                     {/* Active Indicator (Framer Motion Pill) */}
-                    {/* Gives visual feedback with luxury gold styling */}
                     {isActive && (
                       <motion.div 
                         layoutId="activeNavIndicator"
-                        className={`absolute inset-0 rounded-full shadow-sm backdrop-blur-md ${scrolled ? 'bg-[#C5A059]/20 border border-[#C5A059]/40' : 'bg-[#C5A059]/25 border border-[#C5A059]/50'}`}
+                        className="absolute inset-0 rounded-full shadow-sm backdrop-blur-md bg-[#C86D51]/25 border border-[#C86D51]/50"
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       />
                     )}
                     
-                    {/* Dropdown Text Label */}
-                    <span className={`relative z-10 font-body text-sm uppercase tracking-[0.12em] font-medium transition-colors duration-300 ${isActive ? 'text-[#C5A059] font-bold' : (scrolled ? 'text-ivory/70 group-hover:text-[#C5A059]' : 'text-ivory/80 group-hover:text-[#C5A059]')}`}>
+                    {/* FIX P28: font-bold → font-semibold prevents layout shift on active state change */}
+                    <span className={`relative z-10 font-body text-sm uppercase tracking-[0.12em] font-medium transition-colors duration-300 ${isActive ? 'text-white font-semibold' : 'text-ivory/80 group-hover:text-white'}`}>
                       {item.label}
                     </span>
                     
                     {/* Chevron Arrow Icon (Rotates 180deg on hover to show interaction) */}
-                    <svg className={`relative z-10 w-3 h-3 transition-transform duration-300 group-hover:rotate-180 ${isActive ? 'text-[#C5A059]' : (scrolled ? 'text-ivory/70 group-hover:text-[#C5A059]' : 'text-ivory group-hover:text-[#C5A059]')}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg className={`relative z-10 w-3 h-3 transition-transform duration-300 group-hover:rotate-180 ${isActive ? 'text-white' : 'text-ivory group-hover:text-white'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                   </div>
                   
                   {/* DROPDOWN BOX CONTENT */}
-                  {/* Displays sub-links when hovering over trigger with luxury styling aligned with theme */}
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 min-w-[220px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50 pointer-events-none group-hover:pointer-events-auto">
-                    <div className="relative rounded-2xl overflow-hidden p-2 bg-[#0a0a0a]/95 backdrop-blur-2xl border border-[#C5A059]/40 shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_20px_rgba(197,160,89,0.15)] transition-all duration-300">
-                      {/* Top gold accent line */}
-                      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#C5A059] to-transparent opacity-70" />
-
+                    <div className="relative rounded-2xl overflow-hidden p-2 bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300">
                       <div className="flex flex-col space-y-1">
                         {item.dropdown.map((sub: any) => {
                           const isSubActive = sub.href.includes(activeSection) && activeSection !== '';
@@ -178,27 +189,26 @@ export function Header() {
                               href={sub.href} 
                               onClick={(e) => {
                                 if (sub.href.startsWith('#')) {
-                                  e.preventDefault();
-                                  const el = document.getElementById(sub.href.replace('#', ''));
-                                  if (el) {
-                                    const headerOffset = 80;
-                                    const elementPosition = el.getBoundingClientRect().top;
-                                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                                    window.scrollTo({
-                                      top: offsetPosition,
-                                      behavior: 'smooth'
-                                    });
-                                  }
-                                }
-                              }} 
-                              className={`group/sub flex items-center justify-between px-4 py-2.5 rounded-xl text-xs md:text-sm uppercase tracking-[0.14em] font-medium font-body transition-all duration-300 ${
+                                   e.preventDefault();
+                                   const el = document.getElementById(sub.href.replace('#', ''));
+                                   if (el) {
+                                     const headerOffset = 80;
+                                     const elementPosition = el.getBoundingClientRect().top;
+                                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                                     window.scrollTo({
+                                       top: offsetPosition,
+                                       behavior: 'smooth'
+                                     });
+                                   }
+                                 }
+                               }} 
+                              className={`group/sub flex items-center justify-center text-center px-4 py-2.5 rounded-xl text-xs md:text-sm uppercase tracking-[0.14em] font-medium font-body transition-all duration-300 ${
                                 isSubActive
-                                  ? 'bg-[#C5A059]/20 text-[#C5A059] font-semibold border-l-2 border-[#C5A059]'
-                                  : 'text-ivory/80 hover:bg-[#C5A059]/10 hover:text-[#C5A059] hover:translate-x-1'
+                                  ? 'bg-white/15 text-white font-semibold'
+                                  : 'text-ivory/80 hover:bg-white/10 hover:text-white'
                               }`}
                             >
                               <span>{sub.label}</span>
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059] opacity-0 group-hover/sub:opacity-100 transition-opacity duration-300" />
                             </Link>
                           );
                         })}
@@ -208,11 +218,15 @@ export function Header() {
                 </div>
               ) : (
                 // STANDARD NAVIGATION LINK (No Dropdown)
-                // Who is this for? Standard top-level pages directly accessible from the nav pill.
                 <Link 
                   key={item.label} 
                   href={item.href!}
                   onClick={(e) => {
+                    if (item.href === '/' && typeof window !== 'undefined' && window.location.pathname === '/') {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      return;
+                    }
                     const isAnchorOnHome = item.href && (item.href.startsWith('#') || (item.href.startsWith('/#') && typeof window !== 'undefined' && window.location.pathname === '/'));
                     if (isAnchorOnHome) {
                       const targetId = item.href.replace(/^\/?#/, '');
@@ -230,21 +244,19 @@ export function Header() {
                       }
                     }
                   }}
-                  className={`relative px-6 py-2 z-10 rounded-full group hover:scale-[1.05] transition-all duration-300 ${
-                    scrolled ? 'hover:bg-white/10' : 'hover:bg-white/20'
-                  }`}
+                  className="relative px-6 py-2 z-10 rounded-full group hover:scale-[1.05] transition-all duration-300 hover:bg-white/20"
                 >
                   {/* Active Indicator (Framer Motion Pill) */}
                   {isActive && (
                     <motion.div 
                       layoutId="activeNavIndicator"
-                      className={`absolute inset-0 rounded-full shadow-sm backdrop-blur-md ${scrolled ? 'bg-[#C5A059]/20 border border-[#C5A059]/40' : 'bg-[#C5A059]/25 border border-[#C5A059]/50'}`}
+                      className="absolute inset-0 rounded-full shadow-sm backdrop-blur-md bg-[#C86D51]/25 border border-[#C86D51]/50"
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
                   
-                  {/* Link Text Label */}
-                  <span className={`relative z-10 font-body text-sm uppercase tracking-[0.12em] font-medium transition-colors duration-300 ${isActive ? 'text-[#C5A059] font-bold' : (scrolled ? 'text-ivory/70 group-hover:text-[#C5A059]' : 'text-ivory/80 group-hover:text-[#C5A059]')}`}>
+                  {/* FIX P28: font-bold → font-semibold to prevent active-state layout shift */}
+                  <span className={`relative z-10 font-body text-sm uppercase tracking-[0.12em] font-medium transition-colors duration-300 ${isActive ? 'text-white font-semibold' : 'text-ivory/80 group-hover:text-white'}`}>
                     {item.label}
                   </span>
                 </Link>
@@ -254,37 +266,36 @@ export function Header() {
 
           {/* =========================================
               RIGHT SECTION: ACTIONS & MOBILE TOGGLE
-              Who is this for? Global actions (Booking) and Mobile Menu access.
+              FIX P6: Separated desktop Reserve pill from mobile hamburger.
+              Desktop gets its own pill. Mobile gets a standalone icon button.
               ========================================= */}
-          <div className={`group flex items-center space-x-2 rounded-full p-1 border transition-all duration-300 backdrop-blur-md hover:scale-[1.05] ${
-            scrolled ? 'bg-black/70 hover:bg-black/80 border-white/10 hover:border-[#C5A059]/40 shadow-sm backdrop-blur-xl' : 'bg-white/10 hover:bg-[#C5A059]/10 border-white/20 hover:border-[#C5A059]/40'
-          }`}>
-            
-            {/* DESKTOP RESERVE BUTTON */}
-            {/* Who is this for? Desktop users. It is hidden on small mobile screens (hidden lg:block). */}
-            <div className="hidden lg:block">
+          <div className="flex items-center gap-3">
+
+            {/* DESKTOP: Reserve pill — only visible on lg+ */}
+            <div className="hidden lg:flex items-center rounded-full p-1 border border-white/20 bg-white/10 hover:bg-white/15 hover:border-white/30 transition-all duration-300 backdrop-blur-md hover:scale-[1.05] shadow-[1px_2px_8px_-1px_rgba(62,18,11,0.25)]">
               <Link 
                 href="/reserve" 
-                className="relative px-6 py-2 block z-10 rounded-full transition-all duration-300 font-body text-sm uppercase tracking-[0.12em] font-medium text-ivory group-hover:text-[#C5A059]"
+                className="relative px-6 py-2 block z-10 rounded-full transition-all duration-300 font-body text-sm uppercase tracking-[0.12em] font-medium text-ivory hover:text-white"
               >
                 Reserve
               </Link>
             </div>
 
-            {/* MOBILE HAMBURGER MENU TOGGLE */}
-            {/* Who is this for? Mobile/Tablet users only (lg:hidden). Opens the MobileMenu drawer. */}
+            {/* MOBILE: Standalone hamburger — only visible below lg */}
+            {/* FIX P6: Now independent — not wrapped in the Reserve pill */}
             <button 
-              className="lg:hidden flex flex-col justify-center items-center w-8 h-8 mx-2 space-y-1.5 z-50 relative text-ivory"
+              className="lg:hidden flex flex-col justify-center items-center w-10 h-10 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-300 z-50 relative text-ivory shrink-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle Menu"
             >
               {/* Top Bar (Rotates into an 'X' when open) */}
-              <span className={`w-7 h-[2px] bg-current transform transition duration-300 ease-out ${mobileOpen ? 'rotate-45 translate-y-[8px]' : ''}`} />
+              <span className={`w-5 h-[1.5px] bg-current transform transition duration-300 ease-out ${mobileOpen ? 'rotate-45 translate-y-[5px]' : ''}`} />
               {/* Middle Bar (Fades out completely when open) */}
-              <span className={`w-7 h-[2px] bg-current transition duration-300 ease-out ${mobileOpen ? 'opacity-0' : ''}`} />
+              <span className={`w-5 h-[1.5px] bg-current transition duration-300 ease-out mt-1 ${mobileOpen ? 'opacity-0' : ''}`} />
               {/* Bottom Bar (Rotates backwards into an 'X' when open) */}
-              <span className={`w-7 h-[2px] bg-current transform transition duration-300 ease-out ${mobileOpen ? '-rotate-45 -translate-y-[8px]' : ''}`} />
+              <span className={`w-5 h-[1.5px] bg-current transform transition duration-300 ease-out mt-1 ${mobileOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
             </button>
+
           </div>
         </div>
       </header>
@@ -293,11 +304,9 @@ export function Header() {
           EXTERNAL COMPONENTS
           ========================================= */}
       {/* Mobile Navigation Drawer Component */}
-      {/* Who is this for? Renders the full-screen menu overlay when mobile users click the hamburger icon above. */}
       <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} navItems={navigationData} />
     </>
   )
 }
 
 export default Header;
-
